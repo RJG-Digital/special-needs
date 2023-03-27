@@ -28,10 +28,9 @@ const userSchema = mongoose.Schema(
       ref: "student",
       default: [],
     },
-    privilegeIds: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "privilege",
-      default: [],
+    role: {
+      type: Number,
+      default: 2
     },
     profileImage: {
       type: String,

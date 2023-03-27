@@ -12,6 +12,7 @@ import { HeaderComponent } from './nav/header/header.component';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SnackbarComponent } from './snackbar/snackbar.component';
+import { ForgotPasswordFormComponent } from './auth/forgot-password-form/forgot-password-form.component';
 
 
 
@@ -23,7 +24,8 @@ import { SnackbarComponent } from './snackbar/snackbar.component';
     SideNavComponent,
     HeaderComponent,
     FooterComponent,
-    SnackbarComponent
+    SnackbarComponent,
+    ForgotPasswordFormComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +40,8 @@ import { SnackbarComponent } from './snackbar/snackbar.component';
     RegisterFormComponent,
     SideNavComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    ForgotPasswordFormComponent,
   ]
 })
 export class ComponentsModule { }

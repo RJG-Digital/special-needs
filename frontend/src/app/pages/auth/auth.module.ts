@@ -8,6 +8,9 @@ import { AuthComponent } from './auth.component';
 import { AuthRoutingModule } from './auth-routing.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from 'src/app/interceptors/auth.interceptor';
+import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +18,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ResetPasswordPageComponent,
     RegisterPageComponent,
     AuthComponent,
+    ForgotPasswordPageComponent,
   ],
   imports: [
     CommonModule,
@@ -27,6 +31,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     LoginPageComponent,
     ResetPasswordPageComponent,
     RegisterPageComponent,
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ]
 })
 export class AuthModule { }

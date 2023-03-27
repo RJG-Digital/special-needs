@@ -1,8 +1,10 @@
 import nodemailer from 'nodemailer'
 const sendMail = async(to, subject, text) => {
+  try {
     const html = `
-    <a href="${text}">Password reset link</a>
-    `
+    <p>${text}</p>
+    `;
+    console.log('made message');
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -10,6 +12,7 @@ const sendMail = async(to, subject, text) => {
           pass: process.env.MAIL_PASSWORD
         }
       });
+      console.log('opened transporter')
       const info = await transporter.sendMail({
         from: 'specialNeedsEdu<specialneedseduapp@gmail.com>',
         to,
@@ -18,6 +21,10 @@ const sendMail = async(to, subject, text) => {
       });
       console.log('Message Sent: ', info.messageId);
       return info;
+  } catch (error) {
+    console.log(error.message);
+  }
+   
 }
 
 export {

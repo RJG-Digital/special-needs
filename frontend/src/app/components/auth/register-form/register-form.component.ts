@@ -15,11 +15,11 @@ export class RegisterFormComponent implements OnInit {
 
   public registerForm: FormGroup;
 
-  get firstName() {return this.registerForm.get('firstName')}
-  get lastName() {return this.registerForm.get('lastName')}
-  get email() {return this.registerForm.get('email')}
-  get password() {return this.registerForm.get('password')}
-  get confirmPassword() {return this.registerForm.get('confirmPassword')}
+  get firstName() {return this.registerForm.get('firstName')};
+  get lastName() {return this.registerForm.get('lastName')};
+  get email() {return this.registerForm.get('email')};
+  get password() {return this.registerForm.get('password')};
+  get confirmPassword() {return this.registerForm.get('confirmPassword')};
 
   constructor(
     public fb: FormBuilder, 
@@ -74,7 +74,7 @@ export class RegisterFormComponent implements OnInit {
       .subscribe((res) => {
         if(res) {
           this.router.navigate(['auth/login'])
-          this.notificationService.success('Registered Successfully');
+          this.notificationService.success('Registered Successfully!');
         }
       })
     } 

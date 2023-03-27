@@ -36,5 +36,11 @@ export class AuthService {
   public register(user: User): Observable<User>{
     return this.http.post(this.baseEndpoint, user);
   }
+  public forgotPassword(email: string) {
+    return this.http.post(`${this.baseEndpoint}/forgotpassword`, {email});
+  }
+  public resetPassword(password: string) {
+    return this.http.post(`${this.baseEndpoint}/resetpassword`, {password});
+  }
 
 }

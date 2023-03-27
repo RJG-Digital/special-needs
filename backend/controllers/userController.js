@@ -97,17 +97,38 @@ const getMe = asyncHandler(async (req, res) => {
 });
 
 /**
- * @description Send link for password reset
+ * @description Sends a link with token to reset password
+ * @route       POST/api/users/forgotpassword
+ * @access      Public
+ */
+const forgotPassword = asyncHandler(async (req, res) => {
+    const { email } = req.body;
+    const user = await User.findOne({email});
+    if(user) {
+        const token = generateResetToken(user._id);
+        sendMail(user.email, 'Password Reset',`http://localhost:4200/auth/resetpassword/${token}`);
+    }
+    res.status(200).json({msg: 'Success'})
+});
+
+/**
+ * @description reset password on user from token
  * @route       POST/api/users/resetpassword
  * @access      Public
  */
 const resetPassword = asyncHandler(async (req, res) => {
-    const { email } = req.body;
-    const user = await User.findOne({ email });
+    const { password } = req.body;
+     // Hash Password
+     const salt = await bcrypt.genSalt(10);
+     const hashedPassword = await bcrypt.hash(password, salt);
+    const user = await User.findByIdAndUpdate(req.user._id, {password: hashedPassword});
     if(user) {
-        sendMail(user.email, 'Password Reset', 'http://localhost:4200')
+        res.status(200).json({msg: 'Success'})
+    } else {
+        res.status(400);
+        throw new Error('Something went wrong.');
     }
-    res.status(200).json({msg: 'Email sent'});
+
 });
 
 /**
@@ -154,14 +175,22 @@ const generateToken = (userId) => {
     });
 }
 
+const generateResetToken = (userId) => {
+    return jwt.sign(
+        { userId },
+        process.env.JWT_SECRET, {
+        expiresIn: '1d'
+    });
+}
+
 /**
  * @description Register Fist User of a company
  * @route       POST/api/users/registerfirstuser
  * @access      Public
  */
 const registerFirstUser = asyncHandler(async (req, res) => {
-    const { firstName, lastName, email, password, companyId, privilegeIds } = req.body;
-
+    const { firstName, lastName, email, password, companyId, role } = req.body;
+    console.log('password: ', password);
     if (!firstName || !lastName || !email || !password) {
         res.status(400);
         throw new Error('Please include all fields')
@@ -182,19 +211,22 @@ const registerFirstUser = asyncHandler(async (req, res) => {
         email,
         password: hashedPassword,
         companyId: companyId ? companyId : null,
-        privilegeIds: privilegeIds ? privilegeIds: [],
-        studentIds: studentIds ? studentIds : [],
+        role,
         profileImage: gravatar.url(email, { s: '300', r: 'x', d: 'retro' })
     });
     if (user) {
-        res.status(201).json({
+        const token =  generateToken(user._id);
+       const sent = await sendMail(user.email, 'New Account Created', `A new Account has been created for you. Here is your temperary password. Use it to log in the first time to reset your password. Link: http://localhost:4200/auth/resetpassword/${token} Password: ${password}`);
+        console.log(sent);
+       res.status(201).json({
             _id: user.id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
             profileImage: user.profileImage,
-            plaidItems: user.plaidItems,
-            token: generateToken(user._id)
+            companyId: user.companyId,
+            role: user.role,
+            token
         });
     } else {
         res.status(400);
@@ -207,6 +239,7 @@ export {
     registerUser,
     loginUser,
     getMe,
+    forgotPassword,
     resetPassword,
     test,
     registerFirstUser

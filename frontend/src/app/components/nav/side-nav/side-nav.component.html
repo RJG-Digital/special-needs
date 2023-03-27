@@ -1,0 +1,18 @@
+<mat-sidenav-container class="example-container">
+  <mat-sidenav
+    #sidenav
+    mode="side"
+    opened
+    class="example-sidenav"
+    [fixedInViewport]="false"
+    fixedTopGap="0"
+    fixedBottomGap="0"
+  >
+    <!-- Side nav links -->
+  </mat-sidenav>
+
+  <mat-sidenav-content style="height:100%">
+    <!-- Pages -->
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

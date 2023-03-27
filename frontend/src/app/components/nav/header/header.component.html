@@ -1,0 +1,38 @@
+<mat-toolbar style="overflow-x: hidden" class="no-padding" color="primary">
+  <div
+    fxFlex
+    style="height: 64px"
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+  >
+    <div fxFlex="85" fxLayout="column" fxLayoutAlign="center center"></div>
+    <div
+      fxFlex
+      fxLayout="column"
+      fxLayoutAlign="center end"
+      style="
+        transform: skewx(-20deg);
+        margin-right: -10px;
+        margin-top: -5px;
+        background: rgb(238, 161, 17);
+        height: 64px;
+      "
+    >
+      <div
+        style="transform: skewx(20deg)"
+        class="full-width full-height"
+        fxLayout="row"
+        fxLayoutAlign="center end"
+      >
+        <img
+          style="height: 45px; width: 45px; border-radius: 50%; cursor: pointer"
+          [src]="user.profileImage"
+          alt="Profile Picture"
+        />
+        <p style="font-size: 14px; margin: auto 5px">
+          {{ user.firstName }} {{ user.lastName }}
+        </p>
+      </div>
+    </div>
+  </div>
+</mat-toolbar>

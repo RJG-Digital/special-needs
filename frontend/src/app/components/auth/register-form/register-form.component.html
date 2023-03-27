@@ -1,0 +1,84 @@
+<mat-card class="login-form" style="width: 500px">
+    <mat-card-header>
+      <h1 class="primary-text bold">Register</h1>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="registerForm">
+        <div fxLayout="column" fxLayoutAlign="center center">
+            <div class="full-width mb-5p" fxLayout="row" fxLayoutAlign="center center">
+                <mat-form-field fxFlex appearance="outline">
+                  <mat-label>First Name</mat-label>
+                  <input autocomplete="new-email" matInput formControlName="firstName"/>
+                  <mat-icon color="primary" matPrefix>person</mat-icon>
+                  <mat-error *ngIf="firstName && firstName.errors && firstName.errors['required'] && firstName.touched">
+                    First name is required.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="full-width mb-5p" fxLayout="row" fxLayoutAlign="center center">
+                <mat-form-field fxFlex appearance="outline">
+                  <mat-label>Last Name</mat-label>
+                  <input autocomplete="new-email" matInput formControlName="lastName"/>
+                  <mat-icon color="primary" matPrefix>person</mat-icon>
+                  <mat-error *ngIf="lastName && lastName.errors && lastName.errors['required'] && lastName.touched">
+                    Last name is required.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+          <div class="full-width mb-5p" fxLayout="row" fxLayoutAlign="center center">
+            <mat-form-field fxFlex appearance="outline">
+              <mat-label>Email</mat-label>
+              <input autocomplete="new-email" matInput formControlName="email"/>
+              <mat-icon color="primary" matPrefix>email</mat-icon>
+              <mat-error *ngIf="email && email.errors && email.errors['required'] && email.touched">
+                Email is required.
+              </mat-error>
+              <mat-error *ngIf="email && email.errors && email.errors['email'] && email.touched">
+                Must be a valid email.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="full-width mb-5p" fxLayout="row" fxLayoutAlign="center center">
+            <mat-form-field fxFlex appearance="outline">
+              <mat-label>Password</mat-label>
+              <input autocomplete="new-password" matInput type="password" formControlName="password"/>
+              <mat-icon color="primary" matPrefix>key</mat-icon>
+              <mat-error *ngIf="password && password.errors && password.errors['required'] && password.touched">
+                Password is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="full-width mb-5p" fxLayout="row" fxLayoutAlign="center center">
+            <mat-form-field fxFlex appearance="outline">
+              <mat-label>Confirm Password</mat-label>
+              <input type="password" autocomplete="new-email" matInput formControlName="confirmPassword"/>
+              <mat-icon color="primary" matPrefix>key</mat-icon>
+              <mat-error *ngIf="confirmPassword && confirmPassword.errors && confirmPassword.errors['matchError'] && confirmPassword.touched">
+                Passwords must match
+              </mat-error>
+              <mat-error *ngIf="confirmPassword && confirmPassword.errors && confirmPassword.errors['required'] && confirmPassword.touched">
+                Password is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div
+            class="full-width"
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
+          >
+            <button type="button" (click)="onSubmit()" [ngClass]="registerForm.invalid ? 'disabled-button' : ''" fxFlex color="primary" mat-raised-button>
+              Register
+            </button>
+          </div>
+          <div class="full-width mt-1" fxLayout="row" fxLayoutAlign="end center">
+            <a
+              routerLink="/login"
+              class="primary-text plain-link small-text"
+              >Already a member?</a
+            >
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  

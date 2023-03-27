@@ -1,0 +1,53 @@
+<mat-card class="login-form" style="width: 500px">
+  <mat-card-header>
+    <h1 class="primary-text bold">Login</h1>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="loginForm">
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div class="full-width" fxLayout="row" fxLayoutAlign="center center">
+          <mat-form-field fxFlex appearance="outline">
+            <mat-label>Email</mat-label>
+            <input formControlName="email" autocomplete="new-email" matInput />
+            <mat-icon color="primary" matPrefix>email</mat-icon>
+            <mat-error *ngIf="email && email.errors && email.errors['required'] && email.touched">
+              Email is required.
+            </mat-error>
+            <mat-error *ngIf="email && email.errors && email.errors['email'] && email.touched">
+              Must be a valid email.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="full-width" fxLayout="row" fxLayoutAlign="center center">
+          <mat-form-field fxFlex appearance="outline">
+            <mat-label>Password</mat-label>
+            <input formControlName="password" autocomplete="new-password" matInput type="password" />
+            <mat-icon color="primary" matPrefix>key</mat-icon>
+            <mat-error *ngIf="password && password.errors && password.errors['required'] && password.touched">
+              Password is required.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div
+          class="full-width"
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+        >
+          <button type="button" (click)="onSubmit()" [ngClass]="loginForm.invalid ? 'disabled-button' : ''" class="mr-1" fxFlex color="primary" mat-raised-button>
+            Login
+          </button>
+          <button type="button" routerLink="/register" class="ml-1" fxFlex color="accent" mat-raised-button>
+            Register
+          </button>
+        </div>
+        <div class="full-width mt-1" fxLayout="row" fxLayoutAlign="end center">
+          <a
+            routerLink="/forgotpassword"
+            class="primary-text plain-link small-text"
+            >Forgot Password?</a
+          >
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

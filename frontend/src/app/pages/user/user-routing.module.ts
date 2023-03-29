@@ -3,13 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { UserComponent } from './user.component';
 
-
 const routes: Routes = [
  
-  {path: '', component: UserComponent, children: [
-    {path: 'dashboard', component: HomeComponent},
-    {path: '', redirectTo: 'dashboard', pathMatch: 'full'}
-  ]},
+  {
+    path: '', component: UserComponent, children: [
+      {path: 'dashboard', component: HomeComponent},
+      {path: '', redirectTo: 'dashboard', pathMatch: 'full'}
+  ]
+},
 ];
 
 @NgModule({

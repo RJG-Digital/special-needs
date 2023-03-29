@@ -10,6 +10,7 @@ import { AuthModule } from './pages/auth/auth.module';
 import { UserModule } from './pages/user/user.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ScheduleModule, RecurrenceEditorModule } from '@syncfusion/ej2-angular-schedule';
+import { UsersModule } from './pages/users/users.module';
 
 @NgModule({
   declarations: [
@@ -24,8 +25,10 @@ import { ScheduleModule, RecurrenceEditorModule } from '@syncfusion/ej2-angular-
     ComponentsModule,
     AuthModule,
     UserModule,
+    UsersModule,
     HttpClientModule,
-    ScheduleModule, RecurrenceEditorModule
+    ScheduleModule,
+    RecurrenceEditorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

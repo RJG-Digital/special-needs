@@ -28,6 +28,9 @@ const userSchema = mongoose.Schema(
       ref: "student",
       default: [],
     },
+    title: {
+      type: String
+    },
     role: {
       type: Number,
       default: 2

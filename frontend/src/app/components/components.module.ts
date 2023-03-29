@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SnackbarComponent } from './snackbar/snackbar.component';
 import { ForgotPasswordFormComponent } from './auth/forgot-password-form/forgot-password-form.component';
+import { UsersTableComponent } from './users/users-table/users-table.component';
 
 
 
@@ -25,14 +26,16 @@ import { ForgotPasswordFormComponent } from './auth/forgot-password-form/forgot-
     HeaderComponent,
     FooterComponent,
     SnackbarComponent,
-    ForgotPasswordFormComponent
+    ForgotPasswordFormComponent,
+    UsersTableComponent,
   ],
   imports: [
     CommonModule,
     MaterialModule,
     FlexLayoutModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
   ],
   exports: [
     LoginFormComponent,
@@ -42,6 +45,7 @@ import { ForgotPasswordFormComponent } from './auth/forgot-password-form/forgot-
     HeaderComponent,
     FooterComponent,
     ForgotPasswordFormComponent,
+    UsersTableComponent,
   ]
 })
 export class ComponentsModule { }

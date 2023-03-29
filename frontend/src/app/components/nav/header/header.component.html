@@ -5,18 +5,21 @@
     fxLayout="row"
     fxLayoutAlign="space-between center"
   >
-    <div fxFlex="85" fxLayout="column" fxLayoutAlign="center center"></div>
+    <div style="height:100%" fxFlex="85" fxLayout="column" fxLayoutAlign="center center">
+      <div class="full-width" fxFlex fxLayout="row" fxLayoutAlign="start center">
+        <button mat-icon-button style="margin: auto 10px;">
+          <mat-icon >
+              menu
+          </mat-icon>
+        </button>
+      </div>
+
+    </div>
     <div
       fxFlex
       fxLayout="column"
       fxLayoutAlign="center end"
-      style="
-        transform: skewx(-20deg);
-        margin-right: -10px;
-        margin-top: -5px;
-        background: rgb(238, 161, 17);
-        height: 64px;
-      "
+      class="header-profile"
     >
       <div
         style="transform: skewx(20deg)"

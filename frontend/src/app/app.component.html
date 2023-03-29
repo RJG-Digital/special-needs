@@ -1,1 +1,11 @@
-<router-outlet></router-outlet>
+<span></span>
+<ng-container *ngIf="user">
+<app-side-nav [company]="company" [user]="user">
+    <ng-container style="height: calc(100vh - 64px)">
+        <router-outlet></router-outlet>  
+    </ng-container>
+</app-side-nav>
+</ng-container>
+<ng-container *ngIf="!user">
+    <router-outlet></router-outlet>
+</ng-container>

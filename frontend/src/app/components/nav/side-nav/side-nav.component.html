@@ -8,11 +8,25 @@
     fixedTopGap="0"
     fixedBottomGap="0"
   >
+  <div fxLayout="row" fxLayoutAlign="center center" style="margin:10px auto">
+    <img  style="width:180px; margin:auto" [src]="company?.logo" alt="">
+  </div>
+
+    <mat-divider style="margin: 0 15px;"></mat-divider>
+
     <!-- Side nav links -->
+    <mat-nav-list>
+      <a mat-list-item routerLinkActive="active" routerLink="/dashboard"> <span class="list-item-text">Dashboard</span></a>
+      <a mat-list-item routerLinkActive="active" routerLink="/users/overview"><span class="list-item-text">Users</span></a>
+      <a mat-list-item routerLinkActive="active" routerLink="/students"> <span class="list-item-text">Students</span></a>
+      <a mat-list-item routerLinkActive="active" routerLink="/schedules"><span class="list-item-text">Schedules</span></a>
+      <a mat-list-item routerLinkActive="active" routerLink="/settings"><span class="list-item-text">Settings</span></a>
+    </mat-nav-list>
   </mat-sidenav>
 
-  <mat-sidenav-content style="height:100%">
+  <mat-sidenav-content style="height:100%;" class="backgroundColor">
     <!-- Pages -->
+    <app-header [company]="company" [user]="user"></app-header>
     <ng-content></ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>

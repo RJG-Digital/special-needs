@@ -24,6 +24,9 @@ const studentSchema = mongoose.Schema(
       ref: "company",
       default: null,
     },
+    grade: {
+      type: Number
+    },
     profileImage: {
       type: String,
     },

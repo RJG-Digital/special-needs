@@ -4,6 +4,7 @@ import asyncHandler from 'express-async-handler';
 import User from '../models/user.js';
 import gravatar from 'gravatar';
 import {sendMail} from '../config/mailer.js';
+import Company from '../models/company.js';
 
 /**
  * @description Register User
@@ -68,6 +69,8 @@ const loginUser = asyncHandler(async (req, res) => {
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
+            role: user.role,
+            companyId: user.companyId,
             profileImage: user.profileImage,
             token: generateToken(user._id)
         });
@@ -189,7 +192,7 @@ const generateResetToken = (userId) => {
  * @access      Public
  */
 const registerFirstUser = asyncHandler(async (req, res) => {
-    const { firstName, lastName, email, password, companyId, role } = req.body;
+    const { firstName, lastName, email, password, companyId, role, title } = req.body;
     console.log('password: ', password);
     if (!firstName || !lastName || !email || !password) {
         res.status(400);
@@ -209,6 +212,7 @@ const registerFirstUser = asyncHandler(async (req, res) => {
         firstName,
         lastName,
         email,
+        title,
         password: hashedPassword,
         companyId: companyId ? companyId : null,
         role,
@@ -223,6 +227,7 @@ const registerFirstUser = asyncHandler(async (req, res) => {
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
+            title: user.title,
             profileImage: user.profileImage,
             companyId: user.companyId,
             role: user.role,
@@ -234,6 +239,36 @@ const registerFirstUser = asyncHandler(async (req, res) => {
     }
 });
 
+/**
+ * @description Register Fist User of a company
+ * @route       POST/api/users/registerfirstuser
+ * @access      Public
+ */
+const getUsersByCompany = asyncHandler(async (req, res) => {
+    const {companyId} = req.params;
+    if(companyId) {
+        const company = await Company.findById(companyId) 
+        let users = await User.find({companyId});
+        users = users.map(u => {
+            const {_id, firstName, lastName, email, profileImage, title, role} = u
+            let fullRoll = company.userRoles.find(r => r.number === role)
+            return {
+                _id,
+                firstName,
+                lastName,
+                email,
+                title,
+                profileImage,
+                role: fullRoll
+            }
+        })
+        res.status(200).json(users);
+    }else {
+        res.status(404);
+        throw new Error('Company Not Found');
+    }
+});
+
 
 export {
     registerUser,
@@ -242,5 +277,6 @@ export {
     forgotPassword,
     resetPassword,
     test,
-    registerFirstUser
+    registerFirstUser,
+    getUsersByCompany
 }

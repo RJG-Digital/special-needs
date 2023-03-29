@@ -1,0 +1,13 @@
+<div style="margin:0 0 24px 0; background-color:white">
+    <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+      <a mat-tab-link
+         *ngFor="let link of navLinks"
+         [routerLink]="link.path"
+         routerLinkActive #rla="routerLinkActive"
+         [active]="rla.isActive">{{ link.label }}</a>
+    </nav>
+    <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+</div>
+<div style="background-color:white;margin: 0 24px 24px 24px;">
+    <router-outlet></router-outlet>
+</div>

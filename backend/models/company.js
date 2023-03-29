@@ -73,8 +73,15 @@ const companySchema = mongoose.Schema(
       type: String,
     },
     colors: {
-      type: [String],
-      default: []
+      primary: {
+        type: String
+      },
+      accent: {
+        type: String
+      },
+      warn:{
+        type: String
+      }
     },
     website: {
       type: String,

@@ -8,7 +8,8 @@ import { User } from 'src/app/models/userModels';
 })
 export class HeaderComponent implements OnInit{
 
-  @Input() user: User
+  @Input() user: User;
+  @Input() company: any
 
   constructor() {}
   

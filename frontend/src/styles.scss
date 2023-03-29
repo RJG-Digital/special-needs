@@ -1,4 +1,5 @@
 @import '../node_modules/@syncfusion/ej2-material-theme/styles/material.css';
+@import'./theme-variables.scss';
 /* You can add global styles to this file, and also import other style files */
 $blue:    #0d6efd;
 $indigo:  #6610f2;
@@ -53,7 +54,10 @@ body { margin: 0 }
     font-weight: 400;
 }
 .full-page {
-    height: 100%;
+    height: calc(100vh - 64px);
+}
+.full-sub-page {
+    height: calc(100vh - 160px);
 }
 .full-width { 
     width: 100%;
@@ -84,4 +88,13 @@ body { margin: 0 }
         --mdc-snackbar-container-opacity:.8
     }
   }
-  
+
+  .backgroundColor {
+    background-color: #3f51b50a;
+  }
+.header-profile {
+    transform: skewx(-20deg);
+    margin-right: -10px;
+    background: $accentColor;
+    height: 64px;
+}

@@ -11,4 +11,11 @@ export class EndpointService {
   public getAuthEndpoint() {
     return `${this.baseUrl}/users`;
   }
+
+  public getCompanyEndpoint() {
+    return `${this.baseUrl}/companies`;
+  }
+  public getUsersEndpoint() {
+    return `${this.baseUrl}/users`;
+  }
 }

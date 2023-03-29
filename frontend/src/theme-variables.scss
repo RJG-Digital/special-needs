@@ -1,0 +1,122 @@
+@use '@angular/material' as mat;
+@include mat.core();
+
+$arcaprimary: (
+    50 : #e6ecf3,
+    100 : #c1cee2,
+    200 : #97aecf,
+    300 : #6d8ebb,
+    400 : #4e75ad,
+    500 : #2f5d9e,
+    600 : #2a5596,
+    700 : #234b8c,
+    800 : #1d4182,
+    900 : #123070,
+    A100 : #a6bfff,
+    A200 : #739aff,
+    A400 : #4075ff,
+    A700 : #2663ff,
+    contrast: (
+        50 : rgba(black, 0.87),
+        100 : rgba(black, 0.87),
+        200 : rgba(black, 0.87),
+        300 : rgba(black, 0.87),
+        400 : white,
+        500 : white,
+        600 : white,
+        700 : white,
+        800 : white,
+        900 : white,
+        A100 : rgba(black, 0.87),
+        A200 : rgba(black, 0.87),
+        A400 : white,
+        A700 : white,
+    )
+);
+$arcawarn: (
+    50 : #fff8e2,
+    100 : #ffedb7,
+    200 : #ffe187,
+    300 : #ffd456,
+    400 : #ffcb32,
+    500 : #ffc20e,
+    600 : #ffbc0c,
+    700 : #ffb40a,
+    800 : #ffac08,
+    900 : #ff9f04,
+    A100 : #ffffff,
+    A200 : #fffaf2,
+    A400 : #ffe4bf,
+    A700 : #ffd9a6,
+    contrast: (
+        50 : rgba(black, 0.87),
+        100 : rgba(black, 0.87),
+        200 : rgba(black, 0.87),
+        300 : rgba(black, 0.87),
+        400 : rgba(black, 0.87),
+        500 : rgba(black, 0.87),
+        600 : rgba(black, 0.87),
+        700 : rgba(black, 0.87),
+        800 : rgba(black, 0.87),
+        900 : rgba(black, 0.87),
+        A100 : rgba(black, 0.87),
+        A200 : rgba(black, 0.87),
+        A400 : rgba(black, 0.87),
+        A700 : rgba(black, 0.87),
+    )
+);
+$arcaaccent: (
+    50 : #fde7e8,
+    100 : #f9c3c6,
+    200 : #f59ca0,
+    300 : #f17479,
+    400 : #ee565d,
+    500 : #eb3840,
+    600 : #e9323a,
+    700 : #e52b32,
+    800 : #e2242a,
+    900 : #dd171c,
+    A100 : #ffffff,
+    A200 : #ffdbdc,
+    A400 : #ffa8aa,
+    A700 : #ff8f91,
+    contrast: (
+        50 :  rgba(black, 0.87),
+        100 : rgba(black, 0.87),
+        200 : rgba(black, 0.87),
+        300 : rgba(black, 0.87),
+        400 : rgba(black, 0.87),
+        500 : white,
+        600 : white,
+        700 : white,
+        800 : white,
+        900 : white,
+        A100 : rgba(black, 0.87),
+        A200 : rgba(black, 0.87),
+        A400 : rgba(black, 0.87),
+        A700 : rgba(black, 0.87),
+    )
+);
+
+// mandatory stuff for theming
+$arca-palette-primary: mat.define-palette($arcaprimary);
+$arca-palette-accent: mat.define-palette($arcaaccent);
+$arca-palette-warn: mat.define-palette($arcawarn);
+// include the custom theme components into a theme object
+$arca-theme: mat.define-light-theme((
+ color: (
+   primary: $arca-palette-primary,
+   accent: $arca-palette-accent,
+   warn: $arca-palette-warn,
+ ),
+ typography: mat.define-typography-config(),
+ density: 0,
+));
+$primaryColor: mat.get-color-from-palette($arca-palette-primary, 500);
+$accentColor: mat.get-color-from-palette($arca-palette-accent, 500);
+$warnColor: mat.get-color-from-palette($arca-palette-warn, 500);
+// $arca-theme: mat-light-theme($arca-palette-primary, $arca-palette-accent, $arca-palette-warn);
+
+// include the custom theme object into the angular material theme
+@include mat.all-component-themes($arca-theme);
+

@@ -46,8 +46,8 @@ export class LoginFormComponent implements OnInit {
     .pipe(take(1))
     .subscribe((res) => {
      if(res) {
-      const{_id, firstName, lastName, profileImage, email, token, companyId, title, role} = res;
-      const user = {_id, firstName, lastName, profileImage, email, title, companyId, role};
+      const{_id, firstName, lastName, profileImage, email, token, company, title, role} = res;
+      const user = {_id, firstName, lastName, profileImage, email, title, company, role};
       this.sessionStorageService.saveUser(user);
       this.authService.user$.next(this.sessionStorageService.getUser());
       if(token) {

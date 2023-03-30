@@ -70,7 +70,8 @@ export class ResetPasswordFormComponent implements OnInit {
       .pipe(take(1))
       .subscribe((res) => {
         if(res) {
-          this.router.navigate(['auth/login'])
+          this.sessionStorageService.deleteToken();
+          this.router.navigate(['login'])
           this.notificationService.success('Password Reset Successfully!');
         }
       })

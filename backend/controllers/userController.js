@@ -33,7 +33,7 @@ const registerUser = asyncHandler(async (req, res) => {
         lastName,
         email,
         password: hashedPassword,
-        companyId: companyId ? companyId : null,
+        company: companyId ? companyId : null,
         privilegeIds: privilegeIds ? privilegeIds: [],
         studentIds: studentIds ? studentIds : [],
         profileImage: gravatar.url(email, { s: '300', r: 'x', d: 'retro' })
@@ -62,7 +62,7 @@ const registerUser = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).populate('company');
     if (user && await bcrypt.compare(password, user.password)) {
         res.status(201).json({
             _id: user.id,
@@ -70,7 +70,7 @@ const loginUser = asyncHandler(async (req, res) => {
             lastName: user.lastName,
             email: user.email,
             role: user.role,
-            companyId: user.companyId,
+            company: user.company,
             profileImage: user.profileImage,
             token: generateToken(user._id)
         });
@@ -192,7 +192,7 @@ const generateResetToken = (userId) => {
  * @access      Public
  */
 const registerFirstUser = asyncHandler(async (req, res) => {
-    const { firstName, lastName, email, password, companyId, role, title } = req.body;
+    const { firstName, lastName, email, password, company, role, title } = req.body;
     console.log('password: ', password);
     if (!firstName || !lastName || !email || !password) {
         res.status(400);
@@ -214,13 +214,13 @@ const registerFirstUser = asyncHandler(async (req, res) => {
         email,
         title,
         password: hashedPassword,
-        companyId: companyId ? companyId : null,
+        company: company ? company : null,// companyid
         role,
         profileImage: gravatar.url(email, { s: '300', r: 'x', d: 'retro' })
     });
     if (user) {
         const token =  generateToken(user._id);
-       const sent = await sendMail(user.email, 'New Account Created', `A new Account has been created for you. Here is your temperary password. Use it to log in the first time to reset your password. Link: http://localhost:4200/auth/resetpassword/${token} Password: ${password}`);
+       const sent = await sendMail(user.email, 'New Account Created', `A new Account has been created for you. Here is your temperary password. Use it to log in the first time to reset your password. Link: http://localhost:4200/resetpassword/${token} Password: ${password}`);
         console.log(sent);
        res.status(201).json({
             _id: user.id,
@@ -229,7 +229,7 @@ const registerFirstUser = asyncHandler(async (req, res) => {
             email: user.email,
             title: user.title,
             profileImage: user.profileImage,
-            companyId: user.companyId,
+            company: user.company,
             role: user.role,
             token
         });
@@ -247,10 +247,10 @@ const registerFirstUser = asyncHandler(async (req, res) => {
 const getUsersByCompany = asyncHandler(async (req, res) => {
     const {companyId} = req.params;
     if(companyId) {
-        const company = await Company.findById(companyId) 
-        let users = await User.find({companyId});
+        let users = await User.find({company: companyId}).populate('company');
+        console.log(users);
         users = users.map(u => {
-            const {_id, firstName, lastName, email, profileImage, title, role} = u
+            const {_id, firstName, lastName, email, profileImage, title, role, company} = u
             let fullRoll = company.userRoles.find(r => r.number === role)
             return {
                 _id,
@@ -259,7 +259,8 @@ const getUsersByCompany = asyncHandler(async (req, res) => {
                 email,
                 title,
                 profileImage,
-                role: fullRoll
+                role: fullRoll,
+                company
             }
         })
         res.status(200).json(users);

@@ -23,8 +23,8 @@ export class AppComponent {
     .subscribe((user) => {
       if(user) {
         this.user = user;
-        if(this.user.companyId) {
-          this.companyService.getCompany(this.user.companyId)
+        if(this.user.company && this.user.company._id) {
+          this.companyService.getCompany(this.user.company._id)
           .pipe(takeUntil(this.unsubscribe))
           .subscribe(company => {
             if(company) {

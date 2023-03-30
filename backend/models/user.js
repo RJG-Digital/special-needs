@@ -18,7 +18,7 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "Password is required."],
     },
-    companyId: {
+    company: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "company",
       default: null,

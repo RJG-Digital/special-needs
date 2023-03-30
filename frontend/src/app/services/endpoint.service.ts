@@ -15,7 +15,12 @@ export class EndpointService {
   public getCompanyEndpoint() {
     return `${this.baseUrl}/companies`;
   }
+  
   public getUsersEndpoint() {
     return `${this.baseUrl}/users`;
+  }
+
+  public getStudentEndpoint() {
+    return `${this.baseUrl}/students`;
   }
 }

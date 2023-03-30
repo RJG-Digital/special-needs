@@ -4,7 +4,7 @@ import { createStudent, getStudent, getStudents } from '../controllers/studentCo
 import { protect } from '../middleware/authMiddleware.js';
 
 router.post('/',protect, createStudent);
-router.get('/:companyId',protect, getStudents);
-router.get('/student/:id',protect, getStudent);
+router.get('/company/:companyId',protect, getStudents);
+router.get('/:id',protect, getStudent);
 
 export default router;

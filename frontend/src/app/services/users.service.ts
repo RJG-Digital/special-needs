@@ -8,7 +8,7 @@ import { EndpointService } from './endpoint.service';
   providedIn: 'root'
 })
 export class UsersService {
-
+  
   private baseEndpoint = ''
   public Users$ = new BehaviorSubject<User[]>([])
 

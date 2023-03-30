@@ -14,8 +14,8 @@ const getCompany = asyncHandler(async (req, res) => {
         res.status(404);
         throw  new Error('Company not found.')
     }
-
 })
+
 const createCompany = asyncHandler(async (req, res) => {
     const { name, logo, colors, website } = req.body;
     const company = await Company.create({name, logo, colors, website});

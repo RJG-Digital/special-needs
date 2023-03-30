@@ -6,6 +6,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { UserRoutingModule } from './user-routing.module';
 import { HomeComponent } from './home/home.component';
+import {  } from '@syncfusion/ej2-angular-schedule';
+import { CalendarModule } from 'src/app/components/calendar/calendar.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,11 @@ import { HomeComponent } from './home/home.component';
     ComponentsModule,
     MaterialModule,
     FlexLayoutModule,
-    UserRoutingModule
-  ]
+    UserRoutingModule,
+    CalendarModule
+  ],
+  providers: [
+   
+  ],
 })
 export class UserModule { }

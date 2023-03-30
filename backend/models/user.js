@@ -23,9 +23,9 @@ const userSchema = mongoose.Schema(
       ref: "company",
       default: null,
     },
-    studentIds: {
+    schedules: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: "student",
+      ref: "schedule",
       default: [],
     },
     title: {

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 const roleSchema = mongoose.Schema({
   number:{
     type: Number
@@ -90,11 +91,6 @@ const companySchema = mongoose.Schema(
     logo: {
       type: String,
       default: null
-    },
-    avalibleServices: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "companyService",
-      default: [],
     },
     userRoles: {
       type: [roleSchema],

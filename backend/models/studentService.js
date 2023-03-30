@@ -1,10 +1,15 @@
 import mongoose from "mongoose";
-
 const studentServiceSchema = mongoose.Schema(
   {
+    studentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "student",
+      default: null,
+    },
     service: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "companyService",
+      default: null,
     },
     minutesAssigned: {
       type: Number,

@@ -1,19 +1,27 @@
 import mongoose from "mongoose";
-
 const companyServiceSchema = mongoose.Schema(
   {
+    companyId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "company",
+      default: null,
+    },
     name: {
       type: String,
-      default: null
+      default: null,
     },
     color: {
       type: String,
-      default: null
+      default: null,
+    },
+    description: {
+      type: String,
+      default: null,
     },
   },
   {
     timestamps: true,
   }
 );
-const CompanyService = mongoose.model("companyService", companyServiceSchema);
-export default CompanyService;
+const StudentService = mongoose.model("studentService", studentServiceSchema);
+export default StudentService;

@@ -1,0 +1,68 @@
+<ng-template #eventEditorTemplate let-data>
+    <form>
+        <table class="custom-event-editor" width="100%" cellPadding="5">
+            <tbody>
+                <tr>
+                    <td>
+                        <mat-label color="primary">Title</mat-label>
+                    </td>
+                    <td>
+                        <input id="Subject" class="e-field e-input" type="text" value="data.Subject" data-name="Subject"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="e-textlabel">Student</td>
+                    <td>
+                        <ejs-dropdownlist id="Status" class="e-field" data-name="status" placeholder="Choose student" [dataSource]="[]" [fields]="[]" value="{{data.status}}"></ejs-dropdownlist>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="e-textlabel">Location</td>
+                    <td>
+                        <input id="Subject" class="e-field e-input" type="text" value="data.Subject" data-name="Subject"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="e-textlabel">Start</td>
+                    <td>
+                        <ejs-datetimepicker id="StartTime" class="e-field" data-name="StartTime" format="M/dd/yy h:mm a" [value]="dateParser(data.startTime || data.StartTime)"></ejs-datetimepicker>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="e-textlabel">End</td>
+                    <td >
+                        <ejs-datetimepicker id="EndTime" class="e-field" data-name="EndTime" format="M/dd/yy h:mm a" [value]="dateParser(data.EndTime || data.endTime)"></ejs-datetimepicker>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="e-textlabel">All Day</td>
+                    <td>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="e-textlabel">Location</td>
+                    <td>
+                        <input id="Student" class="e-field e-input" type="text" value="data.Student" data-name="Student"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+            </tbody>
+            
+        </table>
+    </form>
+
+  </ng-template>
+  
+<div class="full-page-calendar">
+    <ejs-schedule   [eventSettings]="{ dataSource: data }"
+    (actionComplete)="onActionComplete($event)" [timeScale]="{ enable: true, interval: 30, slotCount: 1 }" [workHours]="{ start: '06:00', end: '16:00' }" style="margin:24px" height="100%"  [currentView]="viewType"></ejs-schedule>
+</div>

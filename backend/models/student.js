@@ -14,12 +14,7 @@ const studentSchema = mongoose.Schema(
     homeroomNumber: {
       type: Number,
     },
-    serviceIds: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "studentService",
-      default: [],
-    },
-    companyId: {
+    company: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "company",
       default: null,
@@ -36,7 +31,7 @@ const studentSchema = mongoose.Schema(
     carTag: {
       type: Number,
     },
-    studentId: {
+    schoolIssuedId: {
       type: String,
     },
   },
@@ -44,5 +39,5 @@ const studentSchema = mongoose.Schema(
     timestamps: true,
   }
 );
-const Student = mongoose.model("studentService", studentSchema);
+const Student = mongoose.model("student", studentSchema);
 export default Student;

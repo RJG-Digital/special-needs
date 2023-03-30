@@ -15,8 +15,6 @@ import { SnackbarComponent } from './snackbar/snackbar.component';
 import { ForgotPasswordFormComponent } from './auth/forgot-password-form/forgot-password-form.component';
 import { UsersTableComponent } from './users/users-table/users-table.component';
 
-
-
 @NgModule({
   declarations: [
     LoginFormComponent,
@@ -35,7 +33,6 @@ import { UsersTableComponent } from './users/users-table/users-table.component';
     FlexLayoutModule,
     RouterModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
   ],
   exports: [
     LoginFormComponent,

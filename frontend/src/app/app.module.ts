@@ -9,9 +9,11 @@ import { ComponentsModule } from './components/components.module';
 import { AuthModule } from './pages/auth/auth.module';
 import { UserModule } from './pages/user/user.module';
 import { HttpClientModule } from '@angular/common/http';
-import { ScheduleModule, RecurrenceEditorModule } from '@syncfusion/ej2-angular-schedule';
+import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService } from '@syncfusion/ej2-angular-schedule';
 import { UsersModule } from './pages/users/users.module';
-
+import { CalendarModule } from './components/calendar/calendar.module';
+import {DropDownListModule} from '@syncfusion/ej2-angular-dropdowns';
+import {DatePickerModule} from '@syncfusion/ej2-angular-calendars'
 @NgModule({
   declarations: [
     AppComponent
@@ -29,8 +31,17 @@ import { UsersModule } from './pages/users/users.module';
     HttpClientModule,
     ScheduleModule,
     RecurrenceEditorModule,
+    DropDownListModule,
+    DatePickerModule,
+    CalendarModule
   ],
-  providers: [],
+  providers: [
+    DayService,
+    WeekService,
+    WorkWeekService,
+    MonthService,
+    MonthAgendaService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -14,6 +14,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SnackbarComponent } from './snackbar/snackbar.component';
 import { ForgotPasswordFormComponent } from './auth/forgot-password-form/forgot-password-form.component';
 import { UsersTableComponent } from './users/users-table/users-table.component';
+import { StudentsTableComponent } from './students/students-table/students-table.component';
+import { StudentFormComponent } from './students/student-form/student-form.component';
+import { UserFormComponent } from './users/user-form/user-form.component';
+import { DrawerComponent } from './drawer/drawer.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +30,10 @@ import { UsersTableComponent } from './users/users-table/users-table.component';
     SnackbarComponent,
     ForgotPasswordFormComponent,
     UsersTableComponent,
+    StudentsTableComponent,
+    StudentFormComponent,
+    UserFormComponent,
+    DrawerComponent,
   ],
   imports: [
     CommonModule,
@@ -43,6 +51,9 @@ import { UsersTableComponent } from './users/users-table/users-table.component';
     FooterComponent,
     ForgotPasswordFormComponent,
     UsersTableComponent,
+    StudentsTableComponent,
+    StudentFormComponent,
+    DrawerComponent,
   ]
 })
 export class ComponentsModule { }

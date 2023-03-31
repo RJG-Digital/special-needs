@@ -3,8 +3,8 @@ import Student from '../models/student.js';
 
 const getStudents = asyncHandler(async (req, res) => {
     const{companyId} = req.params;
-    const students = await Student.find({companyId}).populate('company');
-    res.status(200).json(students? students : []);
+    const students = await Student.find({company: companyId}).populate('company');
+    res.status(200).json(students ? students : []);
 })
 
 const getStudent =  asyncHandler(async (req, res) => {

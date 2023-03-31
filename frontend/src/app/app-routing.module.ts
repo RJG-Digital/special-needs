@@ -28,13 +28,19 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: HomeComponent,
-    canActivate: [AuthGuard] ,
+    canActivate: [AuthGuard],
   },
   {
     path: 'users',
     loadChildren: () =>
       import('./pages/users/users.module').then((m) => m.UsersModule),
-      canActivate: [AuthGuard] ,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'students',
+    loadChildren: () =>
+      import('./pages/students/students.module').then((m) => m.StudentsModule),
+    canActivate: [AuthGuard],
   },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];

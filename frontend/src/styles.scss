@@ -37,8 +37,11 @@ body { margin: 0 }
 .ml-1 {
     margin-left: 1rem;
 }
+.pb-1 {
+    padding-bottom: 1rem;
+}
 .primary-text {
-    color: #3f51b5;
+    color: $primaryColor
 }
 .bold {
     font-weight: bold;
@@ -53,6 +56,10 @@ body { margin: 0 }
     font-size: 12px;
     font-weight: 400;
 }
+.full-page-m {
+    margin-top: 24px;
+    height: calc(100vh - 115px);
+}
 .full-page {
     height: calc(100vh - 64px);
 }
@@ -61,6 +68,9 @@ body { margin: 0 }
 }
 .full-width { 
     width: 100%;
+}
+.full-sub-width { 
+    width: calc(100vh - 350px)
 }
 .disabled-button {
     pointer-events: none;
@@ -95,6 +105,9 @@ body { margin: 0 }
 .header-profile {
     transform: skewx(-20deg);
     margin-right: -10px;
-    background: $accentColor;
+    background: $warnColor;
     height: 64px;
+}
+.mat-drawer-transition .mat-drawer-backdrop {
+    background: transparent;
 }

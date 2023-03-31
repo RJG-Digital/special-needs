@@ -14,6 +14,7 @@ import { UsersModule } from './pages/users/users.module';
 import { CalendarModule } from './components/calendar/calendar.module';
 import {DropDownListModule} from '@syncfusion/ej2-angular-dropdowns';
 import {DatePickerModule} from '@syncfusion/ej2-angular-calendars'
+import { StudentsModule } from './pages/students/students.module';
 @NgModule({
   declarations: [
     AppComponent
@@ -33,7 +34,8 @@ import {DatePickerModule} from '@syncfusion/ej2-angular-calendars'
     RecurrenceEditorModule,
     DropDownListModule,
     DatePickerModule,
-    CalendarModule
+    CalendarModule,
+    StudentsModule
   ],
   providers: [
     DayService,

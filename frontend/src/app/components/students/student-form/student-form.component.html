@@ -1,0 +1,76 @@
+<form [formGroup]="studentForm" style="margin: 24px;">
+    <div fxLayout="column" fxLayoutAlign="center center">
+        <h1 class="primary-text mb-1" style="margin-top: 0;" >Add student</h1>
+        <mat-divider fxFlex="90" style="width: 100%; margin-bottom:24px;"></mat-divider>
+        <!-- FirstName -->
+        <div class="full-width pb-1" fxLayout="row" fxLayoutAlign="center center" >
+            <mat-form-field fxFlex appearance="outline">
+              <mat-label>First Name</mat-label>
+              <input formControlName="firstName"  matInput />
+              <mat-error *ngIf="firstName && firstName.errors && firstName.errors['required'] && firstName.touched">
+                First name is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+                  <!-- LastName -->
+        <div class="full-width pb-1" fxLayout="row" fxLayoutAlign="center center"  >
+            <mat-form-field fxFlex appearance="outline">
+              <mat-label>Last Name</mat-label>
+              <input formControlName="lastName"  matInput />
+              <mat-error *ngIf="lastName && lastName.errors && lastName.errors['required'] && lastName.touched">
+                First name is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+                  <!-- Teacher -->
+        <div class="full-width pb-1" fxLayout="row" fxLayoutAlign="center center"  >
+            <mat-form-field fxFlex appearance="outline">
+              <mat-label>Teacher</mat-label>
+              <input formControlName="teacher"  matInput />
+              <mat-error *ngIf="teacher && teacher.errors && teacher.errors['required'] && teacher.touched">
+                Teacher is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        <!-- Homeroom -->
+        <div class="full-width pb-1" fxLayout="row" fxLayoutAlign="space-between center"  >
+            <mat-form-field fxFlex="45" appearance="outline">
+              <mat-label>Homeroom Number</mat-label>
+              <input formControlName="homeroomNumber"  matInput />
+              <mat-error *ngIf="homeroomNumber && homeroomNumber.errors && homeroomNumber.errors['required'] && homeroomNumber.touched">
+                Homeroom number name is required.
+              </mat-error>
+            </mat-form-field>
+            <!-- Grade -->
+            <mat-form-field fxFlex="45" appearance="outline">
+                <mat-label>Grade</mat-label>
+                <input formControlName="grade"  matInput />
+                <mat-error *ngIf="grade && grade.errors && grade.errors['required'] && grade.touched">
+                  Grade is required.
+                </mat-error>
+              </mat-form-field>
+          </div>
+                  <!-- FirstName -->
+        <div class="full-width pb-1" fxFlex fxLayout="row" fxLayoutAlign="space-between center"  >
+            <!-- Gender -->
+            <mat-form-field fxFlex="30" appearance="outline">
+                <mat-label>Gender</mat-label>
+                <input formControlName="gender"  matInput />
+            </mat-form-field>
+             <!-- Car Tag -->
+            <mat-form-field fxFlex="30" appearance="outline">
+                <mat-label>Car Tag</mat-label>
+                <input formControlName="carTag" matInput />
+            </mat-form-field>
+            <!-- School Issued Id # -->
+            <mat-form-field fxFlex="30" appearance="outline">
+                <mat-label>School Id</mat-label>
+                <input formControlName="schoolIssuedId"  matInput />
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" style="position: absolute; bottom: 24px; width: 100%; font-size: 30px " fxLayoutAlign="space-around end" >
+            <button type="button" (click)="close()" fxFlex="45" mat-raised-button color="warn">Cancel</button>
+            <button type="button" (click)="onSubmit()" fxFlex="45" mat-raised-button color="primary">Save</button>
+        </div>
+    </div>
+</form>

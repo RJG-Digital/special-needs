@@ -1,7 +1,7 @@
 import { Company } from "./companyModels";
 
 export interface Student {
-    fristName: string;
+    firstName: string;
     lastName:string;
     teacher: string;
     homeroomNumber: number;

@@ -7,7 +7,10 @@ import { EndpointService } from './endpoint.service';
 @Injectable({
   providedIn: 'root',
 })
-export class StudentsService {
+export class StudentService {
+  
+  public students$ = new BehaviorSubject<Student[]>([]);
+
   private baseEndpoint = '';
 
   constructor(
@@ -26,6 +29,8 @@ export class StudentsService {
   }
 
   public createStudent(student: RequestStudent): Observable<RequestStudent> {
-    return this.http.post<RequestStudent>(`${this.baseEndpoint}}`, student);
+    console.log(this.baseEndpoint);
+    console.log(student)
+    return this.http.post<RequestStudent>(`${this.baseEndpoint}`, student);
   }
 }

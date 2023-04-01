@@ -7,7 +7,6 @@ const calenderEventSchema = mongoose.Schema({
     isAllDay: { type: Boolean },
     RecurrenceRule: { type: String },
     description: { type: String },
-    assignedId: { type: Number },
     scheduleId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "schedule",

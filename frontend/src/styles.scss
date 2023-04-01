@@ -12,8 +12,9 @@ $green:   #198754;
 $teal:    #20c997;
 $cyan:    #0dcaf0;
 
-html, body { height: 100%;}
+html, body { height: 100%; font-family: 'Raleway', sans-serif !important;}
 body { margin: 0 }
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {background-color: transparent !important;}
 .mb-5p {
     margin-bottom: 5px;
 }
@@ -56,6 +57,7 @@ body { margin: 0 }
     font-size: 12px;
     font-weight: 400;
 }
+
 .full-page-m {
     margin-top: 24px;
     height: calc(100vh - 115px);

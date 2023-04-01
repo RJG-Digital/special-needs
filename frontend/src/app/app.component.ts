@@ -3,6 +3,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { User } from './models/userModels';
 import { AuthService } from './services/auth.service';
 import { CompanyService } from './services/company.service';
+import { StudentService } from './services/student.service';
 
 @Component({
   selector: 'app-root',
@@ -10,31 +11,35 @@ import { CompanyService } from './services/company.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  
   public user: User;
   public company: any;
   private unsubscribe = new Subject<void>();
-  
-  constructor(private authService: AuthService, private companyService: CompanyService) {}
- 
+
+  constructor(
+    private authService: AuthService,
+    private companyService: CompanyService,
+    private studentService: StudentService
+  ) {}
+
   ngOnInit(): void {
     this.authService.user$
-    .pipe(takeUntil(this.unsubscribe))
-    .subscribe((user) => {
-      if(user) {
-        this.user = user;
-        if(this.user.company && this.user.company._id) {
-          this.companyService.getCompany(this.user.company._id)
-          .pipe(takeUntil(this.unsubscribe))
-          .subscribe(company => {
-            if(company) {
-              this.companyService.company$.next(company);
-              this.company = company;
-            }
-          })
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((user) => {
+        if (user) {
+          this.user = user;
+          if (this.user.company && this.user.company._id) {
+            this.companyService
+              .getCompany(this.user.company._id)
+              .pipe(takeUntil(this.unsubscribe))
+              .subscribe((company) => {
+                if (company) {
+                  this.companyService.company$.next(company);
+                  this.company = company;
+                }
+              });
+          }
         }
-      } 
-    })
+      });
   }
 
   ngOnDestroy(): void {

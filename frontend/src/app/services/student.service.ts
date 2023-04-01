@@ -1,21 +1,24 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 import { RequestStudent, Student } from '../models/studentModels';
 import { EndpointService } from './endpoint.service';
+import { SessionStorageService } from './session-storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class StudentService {
+export class StudentService implements OnDestroy {
   
   public students$ = new BehaviorSubject<Student[]>([]);
 
   private baseEndpoint = '';
+  private unsubscribe = new Subject<void>();
 
   constructor(
     private http: HttpClient,
-    private endpointService: EndpointService
+    private endpointService: EndpointService,
+    private sessionStorageService: SessionStorageService
   ) {
     this.baseEndpoint = endpointService.getStudentEndpoint();
   }
@@ -32,5 +35,19 @@ export class StudentService {
     console.log(this.baseEndpoint);
     console.log(student)
     return this.http.post<RequestStudent>(`${this.baseEndpoint}`, student);
+  }
+
+  public refreshStudentsList() {
+    const companyId = this.sessionStorageService.getCompanyId();
+    if(companyId) {
+      this.getStudents(companyId)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(students => this.students$.next(students))
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

@@ -1,8 +1,10 @@
 import { Company } from "./companyModels";
 
 export interface Student {
+    _id: string
     firstName: string;
     lastName:string;
+    email: string;
     teacher: string;
     homeroomNumber: number;
     company: Company;
@@ -13,8 +15,10 @@ export interface Student {
     schoolIssuedId: string;
 }
 export interface RequestStudent {
-    fristName: string;
+    _id?: string
+    firstName: string;
     lastName:string;
+    email?:string
     teacher: string;
     homeroomNumber: number;
     company: string;

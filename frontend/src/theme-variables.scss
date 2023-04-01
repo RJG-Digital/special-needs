@@ -98,6 +98,7 @@ $arcawarn: (
     )
 );
 
+
 // mandatory stuff for theming
 $arca-palette-primary: mat.define-palette($arcaprimary);
 $arca-palette-accent: mat.define-palette($arcaaccent);
@@ -109,7 +110,9 @@ $arca-theme: mat.define-light-theme((
    accent: $arca-palette-accent,
    warn: $arca-palette-warn,
  ),
- typography: mat.define-typography-config(),
+ typography: mat.define-typography-config(
+    $font-family: 'raleway',
+ ),
  density: 0,
 ));
 $primaryColor: mat.get-color-from-palette($arca-palette-primary, 500);
@@ -119,4 +122,7 @@ $warnColor: mat.get-color-from-palette($arca-palette-warn, 500);
 
 // include the custom theme object into the angular material theme
 @include mat.all-component-themes($arca-theme);
+
+// Fonts 
+
 

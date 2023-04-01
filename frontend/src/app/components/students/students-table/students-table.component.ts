@@ -9,9 +9,9 @@ import { Student } from 'src/app/models/studentModels';
 export class StudentsTableComponent {
   @Input() students: Student[]
   @Output() onStudentEdit = new EventEmitter<Student | null>();
-  public displayedColumns: string[] = ['name', 'teacher', 'grade', 'homeroomNumber'];
+  public displayedColumns: string[] = ['name', 'teacher', 'grade', 'homeroomNumber', 'actions'];
 
-  public studentEdit() {
-    this.onStudentEdit.emit();
+  public studentEdit(student = null) {
+    this.onStudentEdit.emit(student);
   }
 }

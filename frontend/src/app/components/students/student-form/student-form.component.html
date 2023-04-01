@@ -32,25 +32,35 @@
               </mat-error>
             </mat-form-field>
           </div>
+          <!-- Email -->
+        <div class="full-width pb-1" fxLayout="row" fxLayoutAlign="center center"  >
+          <mat-form-field fxFlex appearance="outline">
+            <mat-label>Email</mat-label>
+            <input formControlName="email"  matInput />
+            <mat-error *ngIf="email && email.errors && email.errors['email'] && email.touched">
+              Must be a valid email format
+            </mat-error>
+          </mat-form-field>
+        </div>
         <!-- Homeroom -->
         <div class="full-width pb-1" fxLayout="row" fxLayoutAlign="space-between center"  >
             <mat-form-field fxFlex="45" appearance="outline">
-              <mat-label>Homeroom Number</mat-label>
-              <input formControlName="homeroomNumber"  matInput />
+              <mat-label>Homeroom #</mat-label>
+              <input type="number" formControlName="homeroomNumber"  matInput />
               <mat-error *ngIf="homeroomNumber && homeroomNumber.errors && homeroomNumber.errors['required'] && homeroomNumber.touched">
-                Homeroom number name is required.
+                Homeroom # name is required.
               </mat-error>
             </mat-form-field>
             <!-- Grade -->
             <mat-form-field fxFlex="45" appearance="outline">
-                <mat-label>Grade</mat-label>
-                <input formControlName="grade"  matInput />
+                <mat-label>Grade #</mat-label>
+                <input type="number" formControlName="grade"  matInput />
                 <mat-error *ngIf="grade && grade.errors && grade.errors['required'] && grade.touched">
-                  Grade is required.
+                  Grade # is required.
                 </mat-error>
               </mat-form-field>
           </div>
-                  <!-- FirstName -->
+                  <!-- Gender -->
         <div class="full-width pb-1" fxFlex fxLayout="row" fxLayoutAlign="space-between center"  >
             <!-- Gender -->
             <mat-form-field fxFlex="30" appearance="outline">
@@ -60,7 +70,7 @@
              <!-- Car Tag -->
             <mat-form-field fxFlex="30" appearance="outline">
                 <mat-label>Car Tag</mat-label>
-                <input formControlName="carTag" matInput />
+                <input type="number" formControlName="carTag" matInput />
             </mat-form-field>
             <!-- School Issued Id # -->
             <mat-form-field fxFlex="30" appearance="outline">
@@ -70,7 +80,7 @@
         </div>
         <div fxLayout="row" style="position: absolute; bottom: 24px; width: 100%; font-size: 30px " fxLayoutAlign="space-around end" >
             <button type="button" (click)="close()" fxFlex="45" mat-raised-button color="warn">Cancel</button>
-            <button type="button" (click)="onSubmit()" fxFlex="45" mat-raised-button color="primary">Save</button>
+            <button [disabled]="studentForm.invalid" type="button" (click)="onSubmit()" fxFlex="45" mat-raised-button color="primary">Save</button>
         </div>
     </div>
 </form>

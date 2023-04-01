@@ -2,11 +2,14 @@ import mongoose from "mongoose";
 
 const studentSchema = mongoose.Schema(
   {
-    fristName: {
+    firstName: {
       type: String,
     },
     lastName: {
       type: String,
+    },
+    email: {
+      type: String
     },
     teacher: {
       type: String,

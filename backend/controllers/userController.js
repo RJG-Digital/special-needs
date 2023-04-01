@@ -4,7 +4,6 @@ import asyncHandler from 'express-async-handler';
 import User from '../models/user.js';
 import gravatar from 'gravatar';
 import {sendMail} from '../config/mailer.js';
-import Company from '../models/company.js';
 
 /**
  * @description Register User
@@ -36,7 +35,7 @@ const registerUser = asyncHandler(async (req, res) => {
         company: companyId ? companyId : null,
         privilegeIds: privilegeIds ? privilegeIds: [],
         studentIds: studentIds ? studentIds : [],
-        profileImage: gravatar.url(email, { s: '300', r: 'x', d: 'retro' })
+        profileImage: gravatar.url(email, { s: '300', r: 'g', d: 'robohash' })
     });
     if (user) {
         res.status(201).json({
@@ -94,7 +93,6 @@ const getMe = asyncHandler(async (req, res) => {
         lastName,
         email,
         profileImage,
-        plaidItems,
         token: req.user.token
     });
 });

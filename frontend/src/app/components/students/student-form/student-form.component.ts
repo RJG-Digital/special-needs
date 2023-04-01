@@ -19,7 +19,7 @@ import { StudentService } from 'src/app/services/student.service';
 })
 export class StudentFormComponent implements OnInit, OnDestroy {
   @Input() student: Student;
-  @Input() companyId: string;
+  @Input() companyId: string | null;
   @Output() onClose = new EventEmitter();
 
   public studentForm: FormGroup;
@@ -29,6 +29,9 @@ export class StudentFormComponent implements OnInit, OnDestroy {
   }
   get lastName() {
     return this.studentForm.get('lastName');
+  }
+  get email() {
+    return this.studentForm.get('email');
   }
   get teacher() {
     return this.studentForm.get('teacher');
@@ -72,6 +75,10 @@ export class StudentFormComponent implements OnInit, OnDestroy {
         this.student?.lastName ? this.student.lastName : '',
         [Validators.required],
       ],
+      email: [
+        this.student?.email ? this.student.email : '',
+        [Validators.email],
+      ],
       teacher: [
         this.student?.teacher ? this.student.teacher : '',
         [Validators.required],
@@ -96,32 +103,18 @@ export class StudentFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private clearForm() {
-    this.studentForm = this.fb.group({
-      firstName: [''],
-      lastName: [''],
-      teacher: [''],
-      homeroomNumber: [''],
-      grade: [''],
-      company: [''],
-      profileImage: [''],
-      gender: [''],
-      carTag: [''],
-      schoolIssuedId: [''],
-    });
-  }
-
   public close() {
-    this.clearForm();
-    this.onClose.emit();
+    this.studentForm.reset();
+    this.onClose.emit(false);
   }
 
   public onSubmit() {
     if (this.studentForm.valid) {
       const student: RequestStudent = {
-        fristName: this.firstName?.value,
+        firstName: this.firstName?.value,
         lastName: this.lastName?.value,
         teacher: this.teacher?.value,
+        email: this.email?.value,
         homeroomNumber: this.homeroomNumber?.value,
         grade: this.grade?.value,
         company: '',
@@ -141,8 +134,8 @@ export class StudentFormComponent implements OnInit, OnDestroy {
         .pipe(take(1))
         .subscribe((s: RequestStudent) => {
           if (s) {
-            console.log(s);
             this.notificationService.success('Student saved successfully.');
+            this.studentService.refreshStudentsList();
             this.studentForm.reset();
           }
         });

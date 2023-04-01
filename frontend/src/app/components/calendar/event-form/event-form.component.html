@@ -1,0 +1,169 @@
+<form style="margin: 15px 0" [formGroup]="eventForm">
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <!-- Subject -->
+    <div class="full-width" fxLayout="row" fxLayoutAlign="center center">
+      <mat-form-field fxFlex appearance="fill">
+        <mat-label>Title</mat-label>
+        <input formControlName="subject" matInput />
+        <mat-error
+          *ngIf="
+            subject &&
+            subject.errors &&
+            subject.errors['required'] &&
+            subject.touched
+          "
+        >
+          Title is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <!-- Location -->
+    <div class="full-width" fxLayout="row" fxLayoutAlign="center center">
+      <mat-form-field fxFlex appearance="fill">
+        <mat-label>Location</mat-label>
+        <input formControlName="location" matInput type="text" />
+        <mat-error
+          *ngIf="
+            location &&
+            location.errors &&
+            location.errors['required'] &&
+            location.touched
+          "
+        >
+          Location is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Start Time -->
+    <div style="margin: 10px 0" class="full-width">
+      <div
+        class="full-width"
+        fxLayout="row"
+        fxLayoutAlign="center center"
+      >
+        <ejs-datetimepicker
+          fxFlex
+          placeholder="From"
+          formControlName="startTime"
+          format="M/dd/yy h:mm a"
+        ></ejs-datetimepicker>
+      </div>
+      <div class="full-width" fxLayout="row" >
+        <mat-error
+          *ngIf="
+            startTime &&
+            startTime.errors &&
+            startTime.errors['required'] &&
+            startTime.touched
+          "
+        >
+          From time is required.
+        </mat-error>
+      </div>
+    </div>
+
+    <div style="margin: 10px 0;" class="full-width">
+      <!-- End Time -->
+      <div class="full-width" fxLayout="row" fxLayoutAlign="center center">
+        <ejs-datetimepicker
+          fxFlex
+          placeholder="to"
+          formControlName="endTime"
+          format="M/dd/yy h:mm a"
+        ></ejs-datetimepicker>
+      </div>
+      <div class="full-width" fxLayout="row" >
+        <mat-error
+          *ngIf="
+            endTime &&
+            endTime.errors &&
+            endTime.errors['required'] &&
+            endTime.touched
+          "
+        >
+          To time is required.
+        </mat-error>
+      </div>
+    </div>
+    <div style="margin: 10px 0 " class="full-width">
+      <!-- Service Id -->
+      <div class="full-width" fxLayout="row" fxLayoutAlign="center center">
+        <ejs-dropdownlist
+          fxFlex
+          placeholder="Service"
+          [allowFiltering]="true"
+          [dataSource]="mappedStudents"
+          [fields]="fields"
+          formControlName="serviceId"
+        ></ejs-dropdownlist>
+      </div>
+      <div class="full-width" fxLayout="row" >
+        <mat-error
+          *ngIf="
+            serviceId &&
+            serviceId.errors &&
+            serviceId.errors['required'] &&
+            serviceId.touched
+          "
+        >
+          Service is required.
+        </mat-error>
+      </div>
+    </div>
+    <div style="margin: 30px 0; " class="full-width">
+      <!-- Student Id -->
+      <div
+        *ngIf="mappedStudents"
+        class="full-width"
+        fxLayout="row"
+        fxLayoutAlign="center center"
+      >
+        <ejs-dropdownlist
+          fxFlex
+          placeholder="Student"
+          [allowFiltering]="true"
+          [dataSource]="mappedStudents"
+          [fields]="fields"
+          formControlName="studentId"
+        ></ejs-dropdownlist>
+      </div>
+      <div class="full-width" fxLayout="row" >
+        <mat-error
+          *ngIf="
+            studentId &&
+            studentId.errors &&
+            studentId.errors['required'] &&
+            studentId.touched
+          "
+        >
+          Student is required.
+        </mat-error>
+      </div>
+    </div>
+
+    <!-- IS All Day -->
+    <div class="full-width" fxLayout="row" fxLayoutAlign="center center">
+      <mat-form-field fxFlex appearance="fill">
+        <mat-label>All Day</mat-label>
+        <input formControlName="isAllDay" matInput />
+      </mat-form-field>
+    </div>
+
+    <!-- Recurrence Rule -->
+    <div class="full-width" fxLayout="row" fxLayoutAlign="center center">
+      <mat-form-field fxFlex appearance="fill">
+        <mat-label>Recurrence Rule</mat-label>
+        <input formControlName="recurrenceRule" matInput />
+      </mat-form-field>
+    </div>
+
+    <!-- Description -->
+    <div class="full-width" fxLayout="row" fxLayoutAlign="center center">
+      <mat-form-field fxFlex appearance="fill">
+        <mat-label>Description</mat-label>
+        <input formControlName="description" matInput />
+      </mat-form-field>
+    </div>
+  </div>
+</form>

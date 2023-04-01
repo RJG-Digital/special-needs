@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { Subject, takeUntil } from 'rxjs';
+import { Company } from 'src/app/models/companyModels';
 import { Student } from 'src/app/models/studentModels';
 import { CompanyService } from 'src/app/services/company.service';
 import { StudentService } from 'src/app/services/student.service';
@@ -19,6 +20,7 @@ import { StudentService } from 'src/app/services/student.service';
 export class OverviewComponent implements OnInit, OnDestroy, AfterViewInit {
   public students: Student[];
   public selectedStudent: Student;
+  public company: Company;
   public companyId: string;
 
   private unsubscribe = new Subject<void>();
@@ -30,17 +32,29 @@ export class OverviewComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.studentService.students$
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((s) => (this.students = s));
-
-    this.companyService.company$
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((company) => (this.companyId = company));
+    this.getStudents();
+    this.getCompanyId()
   }
 
   ngAfterViewInit(): void {
     console.log(this.drawer);
+  }
+
+  private getStudents() {
+    this.studentService.students$
+    .pipe(takeUntil(this.unsubscribe))
+    .subscribe((s) => (this.students = s));
+  }
+
+  private getCompanyId() {
+    this.companyService.company$
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((company) => { 
+        if(company && company._id) {
+          this.company = company;
+          this.companyId = company._id
+        }
+      });
   }
 
   public onStudentEdit(student: Student | null) {
@@ -53,8 +67,13 @@ export class OverviewComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  public onFlyoutClose() {
+  public onFlyoutClose(saved:boolean) {
+    if(saved) {}
     this.drawer.close();
+  }
+
+  private refreshStudentsList() {
+
   }
 
   ngOnDestroy(): void {

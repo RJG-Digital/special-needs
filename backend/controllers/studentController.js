@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Student from '../models/student.js';
+import gravatar from 'gravatar';
 
 const getStudents = asyncHandler(async (req, res) => {
     const{companyId} = req.params;
@@ -15,10 +16,11 @@ const getStudent =  asyncHandler(async (req, res) => {
 
 const createStudent =  asyncHandler(async (req, res) => {
     const{
-        fristName,
+        firstName,
         lastName,
         teacher,
         homeroomNumber,
+        email,
         company, // CompanyId
         grade, 
         profileImage, 
@@ -27,13 +29,13 @@ const createStudent =  asyncHandler(async (req, res) => {
         schoolIssuedId
     } = req.body;
     const student = await Student.create({
-        fristName,
+        firstName,
         lastName,
         teacher,
         homeroomNumber,
         company,
         grade, 
-        profileImage, 
+        profileImage: profileImage ? profileImage : gravatar.url(email, { s: '300', r: 'x', d: 'wavatar' }), 
         gender, 
         carTag, 
         schoolIssuedId

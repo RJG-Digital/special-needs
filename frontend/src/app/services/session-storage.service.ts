@@ -16,6 +16,15 @@ export class SessionStorageService {
     sessionStorage.setItem('token', token);
   }
 
+  public getCompanyId() {
+    const user = this.getUser();
+    if(!user) {
+      return
+    } else {
+      return user.company?._id;
+    }
+  }
+
   public getUser(): User | null{
     const user = sessionStorage.getItem('user');
     if(user) {

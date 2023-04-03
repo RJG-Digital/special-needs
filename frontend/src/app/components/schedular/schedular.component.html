@@ -5,6 +5,7 @@
     (actionBegin)="onActionBegin($event)"
     (actionComplete)="onActionComplete($event)"
     (popupOpen)="onPopupOpen($event)"
+    (dataBound)="onDataBound()"
     [eventSettings]="eventSettings"
     [timeScale]="{ enable: true, interval: 5, slotCount: 1 }"
     [workHours]="{ start: '07:00', end: '15:30' }"

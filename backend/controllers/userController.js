@@ -214,7 +214,6 @@ const generateResetToken = (userId) => {
 const registerFirstUser = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, password, company, role, title } =
     req.body;
-  console.log("password: ", password);
   if (!firstName || !lastName || !email || !password) {
     res.status(400);
     throw new Error("Please include all fields");
@@ -246,7 +245,6 @@ const registerFirstUser = asyncHandler(async (req, res) => {
       "New Account Created",
       `A new Account has been created for you. Here is your temperary password. Use it to log in the first time to reset your password. Link: http://localhost:4200/resetpassword/${token} Password: ${password}`
     );
-    console.log(sent);
     res.status(201).json({
       _id: user.id,
       firstName: user.firstName,
@@ -273,7 +271,6 @@ const getUsersByCompany = asyncHandler(async (req, res) => {
   const { companyId } = req.params;
   if (companyId) {
     let users = await User.find({ company: companyId }).populate("company");
-    console.log(users);
     users = users.map((u) => {
       const {
         _id,

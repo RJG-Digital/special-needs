@@ -29,6 +29,12 @@ export interface RequestCalendarEvents {
   Service: string;
   Schedule: string;
   Guid: string;
+  StartTimezone: string;
+  EndTimezone: string;
+  RecurrenceException: string;
+  Id: number;
+  RecurrenceID: number;
+  FollowingID: number;
 }
 
 export interface ResponseCalendarEvents {
@@ -44,8 +50,12 @@ export interface ResponseCalendarEvents {
   Service: Service;
   Schedule: ResponseUserSchedule;
   Guid: string;
+  StartTimezone: string;
+  EndTimezone: string;
+  RecurrenceException: string;
+  Id: number;
+  RecurrenceID: number;
+  FollowingID: number;
 }
 
-export interface Service {
-
-}
+export interface Service {}

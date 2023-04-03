@@ -1,15 +1,26 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
 import {
-  ActionEventArgs,
   EventSettingsModel,
   RecurrenceEditor,
   ScheduleComponent,
   View,
 } from '@syncfusion/ej2-angular-schedule';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { Student } from 'src/app/models/studentModels';
-import { ResponseCalendarEvents, ResponseUserSchedule } from 'src/app/models/userScheduleModels';
+import {
+  ResponseCalendarEvents,
+  ResponseUserSchedule,
+} from 'src/app/models/userScheduleModels';
+import { ScheduleService } from 'src/app/services/schedule.service';
 import { StudentService } from 'src/app/services/student.service';
 
 @Component({
@@ -22,7 +33,7 @@ export class SchedularComponent implements OnInit, OnDestroy {
   @Input() studentsList: Student[] = [];
   @Input() schedule: ResponseUserSchedule;
 
-  @Output() onScheduleUpdate = new EventEmitter<ResponseUserSchedule>()
+  @Output() onScheduleUpdate = new EventEmitter<ResponseUserSchedule>();
 
   public repeatEndOptionFields: Object = { text: 'text', value: 'value' };
   public repeatOptionFields: Object = { text: 'text', value: 'value' };
@@ -40,14 +51,38 @@ export class SchedularComponent implements OnInit, OnDestroy {
   @ViewChild('studentDropdown') public studentDropdown: DropDownListComponent;
   @ViewChild('recurrenceEditor') public recurrenceEditor: RecurrenceEditor;
 
-  constructor(private studentService: StudentService) {}
+  constructor(
+    private studentService: StudentService,
+    private scheduleService: ScheduleService
+  ) {}
 
   ngOnInit(): void {
-    if(this.schedule && this.schedule.calenderEvents) {
+    if (this.schedule && this.schedule.calenderEvents) {
       console.log(this.schedule.calenderEvents);
       this.eventSettings = {
-        dataSource: this.schedule.calenderEvents ? this.schedule.calenderEvents : [],
-      }
+        dataSource: this.schedule.calenderEvents
+          ? this.schedule.calenderEvents.map((c) => {
+              return {
+                Description: c.Description,
+                EndTime: c.EndTime,
+                Guid: c.Guid,
+                IsAllDay: c.IsAllDay,
+                Location: c.Location,
+                Service: c.Service,
+                StartTime: c.StartTime,
+                Student: c.Student,
+                Subject: c.Subject,
+                RecurrenceRule: c.RecurrenceRule,
+                Id: c.Id,
+                StartTimezone: c.StartTimezone,
+                EndTimezone: c.EndTimezone,
+                RecurrenceException: c.RecurrenceException,
+                RecurrenceID: c.RecurrenceID,
+                FollowingID: c.FollowingID,
+              };
+            })
+          : [],
+      };
     }
     this.studentService.refreshStudentsList();
     this.studentService.students$
@@ -105,20 +140,32 @@ export class SchedularComponent implements OnInit, OnDestroy {
     args.data = args.data?.map((d: any) => {
       return { ...d, RecurrenceRule: this.recurrenceRule };
     });
-    if (this.scheduleObj) {
-      setTimeout(() => {
-        console.log(this.scheduleObj.getEvents())
-        this.schedule.calenderEvents = this.scheduleObj.getEvents() as ResponseCalendarEvents[];
-        this.onScheduleUpdate.emit(this.schedule);
-      }, 1000);
-    }
+    console.log('On Action Complete:', args)
   }
 
   public onRecurrenceEditorChange(event: any, data: any) {
-    if(event.value) {
+    if (event.value) {
       this.recurrenceRule = event.value;
     }
-   
+  }
+
+  private updateDB() {
+    console.log(this.scheduleObj.getEvents());
+    this.schedule.calenderEvents =
+      this.scheduleObj.getEvents() as ResponseCalendarEvents[];
+    if (this.schedule._id) {
+      const deleteSchedule = {...this.schedule, calenderEvents: [] }
+      this.scheduleService
+      .updateSchedule(this.schedule?._id, this.schedule as any)
+      .pipe(take(1))
+      .subscribe((s) => {
+        console.log(s);
+      });
+    }
+  }
+
+  public onDataBound() {
+    this.updateDB();
   }
 
   ngOnDestroy(): void {

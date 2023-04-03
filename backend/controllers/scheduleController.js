@@ -8,7 +8,6 @@ const getSchedules = asyncHandler(async (req, res) => {
 
 const getMySchedules = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  console.log(_id)
   const schedule = await Schedule.find({ user: _id }).populate("user");
   res.status(200).json(schedule ? schedule : null);
 });

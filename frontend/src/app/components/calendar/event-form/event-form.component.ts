@@ -1,5 +1,6 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
 import { Student } from 'src/app/models/studentModels';
 
 @Component({
@@ -9,9 +10,21 @@ import { Student } from 'src/app/models/studentModels';
 })
 export class EventFormComponent implements OnInit, OnDestroy {
   @Input() studentsList: Student[] = [];
+  @Input() starDate: Date;
+  @Input() endDate: Date;
+  @Input() inSubject: string;
+  @Input() inLocation: string;
+  @Input() inDescription: string;
+  @Input() inService: string;
+  @Input() inStudent: string;
+  @Input() inIsAllDay: boolean;
+  @Output() onFormChange = new EventEmitter<FormGroup>();
+
   public fields: Object = { text: 'studentName', value: 'studentId' };
   public mappedStudents: any;
   public eventForm: FormGroup;
+
+  private unsubscribe = new Subject<void>();
 
   get subject(){return this.eventForm.get('subject');}
   get location(){return this.eventForm.get('location');}
@@ -30,19 +43,35 @@ export class EventFormComponent implements OnInit, OnDestroy {
     if(this.studentsList && this.studentsList.length) {
       this.mappedStudents = this.studentsList.map(s => {return {studentName: `${s.firstName} ${s.lastName}`, studentId: s._id  }})
     }
+    this.startTime?.valueChanges
+    .pipe(takeUntil(this.unsubscribe))
+    .subscribe(change => {
+      this.startTime?.patchValue(this.dateParser(change));
+    });
+    this.endTime?.valueChanges
+    .pipe(takeUntil(this.unsubscribe))
+    .subscribe(change => {
+      this.endTime?.patchValue(this.dateParser(change));
+    });
+    this.eventForm.valueChanges
+    .pipe(takeUntil(this.unsubscribe))
+    .subscribe(form => {
+        console.log('Emitting valid form: ', form);
+        this.onFormChange.emit(form)
+    })
   }
 
   private buildForm() {
     this.eventForm = this.fb.group({
-      subject: ['', [Validators.required]],
-      location: ['', [Validators.required]],
-      startTime: [null, [Validators.required]],
-      endTime: [null, [Validators.required]],
-      serviceId: ['', [Validators.required]],
-      studentId: ['', [Validators.required]],
-      isAllDay: [false],
+      subject: [this.inSubject ? this.inSubject :'', [Validators.required]],
+      location: [this.inLocation ? this.inLocation : '', [Validators.required]],
+      startTime: [this.starDate, [Validators.required]],
+      endTime: [this.endDate, [Validators.required]],
+      serviceId: [this.inService ? this.inService : '', [Validators.required]],
+      studentId: [this.inStudent ? this.inStudent : '', [Validators.required]],
+      isAllDay: [this.inIsAllDay ? this.inIsAllDay : false],
       recurrenceRule: [''],
-      description: [''],
+      description: [this.inDescription ? this.inDescription : ''],
     });
   }
 
@@ -50,6 +79,9 @@ export class EventFormComponent implements OnInit, OnDestroy {
     return new Date(date);
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
 }
 

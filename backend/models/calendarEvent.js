@@ -1,27 +1,28 @@
 import mongoose from "mongoose";
 const calenderEventSchema = mongoose.Schema({
-    subject: { type: String },
-    location: { type: String },
-    startTime: { type: Date },
-    endTime: { type: Date },
-    isAllDay: { type: Boolean },
+    Subject: { type: String },
+    Location: { type: String },
+    StartTime: { type: Date },
+    EndTime: { type: Date },
+    IsAllDay: { type: Boolean },
     RecurrenceRule: { type: String },
-    description: { type: String },
-    scheduleId: {
+    Description: { type: String },
+    Guid:{type: String},
+    Schedule: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "schedule",
       default: null,
     },
-    serviceId: {
+    Service: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "studentService",
       default: null,
     },
-    studentId: {
+    Student: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "student",
       default: null,
     },
   });
-  const CalenderEvent = mongoose.model("calendarevent", calenderEventSchema);
-export default CalenderEvent;
+  // const CalenderEvent = mongoose.model("calendarevent", calenderEventSchema);
+export default calenderEventSchema;

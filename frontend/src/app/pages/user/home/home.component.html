@@ -1,7 +1,19 @@
-<div class="full-width" fxLayout="row">
+<div *ngIf="schedules" class="full-width" fxLayout="row">
   <div fxFlex="15">
+    <mat-form-field style="margin: 24px;" appearance="outline">
+      <mat-label>Schedules</mat-label>
+      <mat-select [(value)]="selectedSchedule">
+        <mat-option [value]="option" *ngFor="let option of schedules">{{ option.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
-  <div  fxFlex>
-    <app-calendar class="full-sub-page"></app-calendar>
+  <div fxFlex>
+    <app-schedular (onScheduleUpdate)="onScheduleUpdate($event)" [schedule]="selectedSchedule" class="full-sub-page"></app-schedular>
+  </div>
+</div>
+
+<div *ngIf="!schedules || !schedules.length" class="full-width" fxLayout="row" fxLayoutAlign="center center">
+  <div  fxLayout="row" fxLayoutAlign="center center" fxFlex>
+    <button (click)="makeSchedule()" mat-raised-button color="primary">Make A Schedule</button>
   </div>
 </div>

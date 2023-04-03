@@ -1,14 +1,22 @@
 import mongoose from "mongoose";
-
+import calenderEventSchema from "./calendarEvent.js";
 const scheduleSchema = mongoose.Schema(
   {
-    userId: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
       default: null,
     },
-    calenderEvents: [calenderEventSchema],
-    default: [],
+    name: {
+      type: String,
+    },
+    description: {
+      type: String,
+    },
+    calenderEvents: {
+      type: [calenderEventSchema],
+      default: [],
+    },
   },
   {
     timestamps: true,

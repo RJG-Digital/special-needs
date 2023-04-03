@@ -23,4 +23,8 @@ export class EndpointService {
   public getStudentEndpoint() {
     return `${this.baseUrl}/students`;
   }
+
+  public getScheduleEndpoint() {
+    return `${this.baseUrl}/schedules`;
+  }
 }

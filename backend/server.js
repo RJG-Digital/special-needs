@@ -8,7 +8,7 @@ import bodyParser from 'body-parser';
 import companyRoutes from './routes/companyRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import studentRoutes from './routes/studentRoutes.js';
-
+import scheduleRoutes from './routes/scheduleRoutes.js';
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
 dotenv.config();
 connectDB();
@@ -22,6 +22,7 @@ app.use(bodyParser.json());
 app.use('/api/companies', companyRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/students', studentRoutes);
+app.use('/api/schedules', scheduleRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

@@ -43,4 +43,8 @@ export class AuthService {
     return this.http.post(`${this.baseEndpoint}/resetpassword`, {password});
   }
 
+  public getMe(): Observable<User>{
+    return this.http.get(`${this.baseEndpoint}/me`);
+  }
+
 }

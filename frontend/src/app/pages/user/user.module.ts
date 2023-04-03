@@ -8,6 +8,7 @@ import { UserRoutingModule } from './user-routing.module';
 import { HomeComponent } from './home/home.component';
 import {  } from '@syncfusion/ej2-angular-schedule';
 import { CalendarModule } from 'src/app/components/calendar/calendar.module';
+import { SchedularModule } from 'src/app/components/schedular/schedular.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { CalendarModule } from 'src/app/components/calendar/calendar.module';
     MaterialModule,
     FlexLayoutModule,
     UserRoutingModule,
-    CalendarModule
+    CalendarModule,
+    SchedularModule
   ],
   providers: [
    

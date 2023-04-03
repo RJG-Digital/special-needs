@@ -72,10 +72,6 @@ export class OverviewComponent implements OnInit, OnDestroy, AfterViewInit {
     this.drawer.close();
   }
 
-  private refreshStudentsList() {
-
-  }
-
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();

@@ -1,0 +1,43 @@
+<form [formGroup]="companyServiceForm" style="margin: 24px;">
+    <div fxLayout="column" fxLayoutAlign="center center">
+        <h1 class="primary-text mb-1" style="margin-top: 0;" >Add Service</h1>
+        <mat-divider fxFlex="90" style="width: 100%; margin-bottom:24px;"></mat-divider>
+        <!-- Name -->
+        <div class="full-width pb-1" fxLayout="row" fxLayoutAlign="center center" >
+            <mat-form-field fxFlex appearance="outline">
+              <mat-label>Name</mat-label>
+              <input formControlName="name"  matInput />
+              <mat-error *ngIf="name && name.errors && name.errors['required'] && name.touched">
+                Name is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        <!-- Color -->
+        <div class="full-width pb-1" fxLayout="row" fxLayoutAlign="center center"  >
+            <mat-form-field fxFlex appearance="outline">
+              <mat-label>Color</mat-label>
+              <mat-select formControlName="color">
+                <mat-option *ngFor="let color of colorOptions" [value]="color">
+                    <div fxLayout="row">
+                        <span class="color-dot mx-1" [style.background]="color"></span> <span [style.color]="color">{{color}}</span>
+                    </div>
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="color && color.errors && color.errors['required'] && color.touched">
+                 Color is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        <!-- Description -->
+        <div class="full-width pb-1" fxLayout="row" fxLayoutAlign="center center"  >
+            <mat-form-field fxFlex appearance="outline">
+              <mat-label>Description</mat-label>
+              <input formControlName="description" matInput />
+            </mat-form-field>
+          </div>
+        <div fxLayout="row" style="position: absolute; bottom: 24px; width: 100%; font-size: 30px " fxLayoutAlign="space-around end" >
+            <button type="button" (click)="close()" fxFlex="45" mat-raised-button color="warn">Cancel</button>
+            <button [disabled]="companyServiceForm.invalid" type="button" (click)="onSubmit()" fxFlex="45" mat-raised-button color="primary">Save</button>
+        </div>
+    </div>
+</form>

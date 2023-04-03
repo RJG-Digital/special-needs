@@ -1,0 +1,43 @@
+<table *ngIf="companyServices && companyServices.length" mat-table [dataSource]="companyServices" class="mat-elevation-z8">
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element">
+        <div fxLayout="row" >
+            <p style="margin:auto 10px;" fxFlex>{{element.name}}</p>
+        </div>
+         </td>
+    </ng-container>
+    <!-- Color Column -->
+    <ng-container matColumnDef="color">
+        <th mat-header-cell *matHeaderCellDef> Color </th>
+        <td mat-cell *matCellDef="let element"> {{element.color}} </td>
+    </ng-container>
+    <!-- Description Column -->
+    <ng-container matColumnDef="description" >
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> 
+        <button (click)="colorEdit()" matTooltip="Add Student" color="primary" mat-icon-button>
+          <mat-icon >add</mat-icon>
+        </button>  
+        </th>
+        <td mat-cell *matCellDef="let element"> 
+        <button mat-icon-button color="primary">
+          <mat-icon>more_vert</mat-icon>
+        </button>  
+        </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+ 
+  <div *ngIf="!companyServices || !companyServices.length"  fxLayout="column" fxLayoutAlign="start center" >
+    <h2>No Services were found.</h2>
+    <button (click)="colorEdit()" color="primary" type="button" mat-raised-button> Add Servcie</button>
+  </div>

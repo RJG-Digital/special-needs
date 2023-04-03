@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const companyServiceSchema = mongoose.Schema(
   {
-    companyId: {
+    company: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "company",
       default: null,
@@ -23,5 +23,5 @@ const companyServiceSchema = mongoose.Schema(
     timestamps: true,
   }
 );
-const StudentService = mongoose.model("studentService", studentServiceSchema);
-export default StudentService;
+const CompanyService = mongoose.model("companyService", companyServiceSchema);
+export default CompanyService;

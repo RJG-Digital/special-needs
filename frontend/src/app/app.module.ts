@@ -16,6 +16,7 @@ import {DropDownListModule} from '@syncfusion/ej2-angular-dropdowns';
 import {DatePickerModule} from '@syncfusion/ej2-angular-calendars'
 import { StudentsModule } from './pages/students/students.module';
 import { SchedularModule } from './components/schedular/schedular.module';
+import { ServicesModule } from './pages/services/services.module';
 @NgModule({
   declarations: [
     AppComponent
@@ -37,7 +38,8 @@ import { SchedularModule } from './components/schedular/schedular.module';
     DatePickerModule,
     CalendarModule,
     SchedularModule,
-    StudentsModule
+    StudentsModule,
+    ServicesModule,
   ],
   providers: [
     DayService,

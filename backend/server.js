@@ -9,6 +9,8 @@ import companyRoutes from './routes/companyRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import studentRoutes from './routes/studentRoutes.js';
 import scheduleRoutes from './routes/scheduleRoutes.js';
+import companyServiceRoutes from './routes/companyServiceRoutes.js';
+import studentServiceRoutes from './routes/studentServiceRoutes.js';
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
 dotenv.config();
 connectDB();
@@ -23,7 +25,8 @@ app.use('/api/companies', companyRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/schedules', scheduleRoutes);
-
+app.use('/api/companyServices', companyServiceRoutes);
+app.use('/api/studentServices', studentServiceRoutes);
 app.use(notFound);
 app.use(errorHandler);
 

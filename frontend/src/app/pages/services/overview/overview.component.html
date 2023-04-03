@@ -1,0 +1,11 @@
+<div class="full-page-m" fxLayout="row" fxLayoutAlign="center start">
+    <mat-drawer-container style="background: transparent !important;" class="full-width example-container" style="height: 100%" >
+     <mat-drawer #drawer class="content-sidenav" mode="over" position="end" >
+         <!-- <app-student-form [companyId]="companyId" (onClose)="onFlyoutClose($event)" [student]="selectedStudent"></app-student-form> -->
+         <app-service-form (onClose)="onFlyoutClose($event)"></app-service-form>
+     </mat-drawer>
+     <div style="width: calc(100% - 48px); margin:24px auto;">
+         <app-service-table (onColorEdit)="onColorEdit($event)" [companyServices]="companyServices"></app-service-table>
+     </div>
+   </mat-drawer-container>
+  </div>

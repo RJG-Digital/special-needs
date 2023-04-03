@@ -8,36 +8,54 @@
     fixedTopGap="0"
     fixedBottomGap="0"
   >
-  <div fxLayout="row" fxLayoutAlign="center center" style="margin:10px auto">
-    <img  style="width:180px; margin:auto" [src]="company?.logo" alt="">
-  </div>
+    <div fxLayout="row" fxLayoutAlign="center center" style="margin: 10px auto">
+      <img style="width: 180px; margin: auto" [src]="company?.logo" alt="" />
+    </div>
 
-    <mat-divider style="margin: 0 15px;"></mat-divider>
+    <mat-divider style="margin: 0 15px"></mat-divider>
 
     <!-- Side nav links -->
     <mat-nav-list>
       <a mat-list-item routerLinkActive="active" routerLink="/dashboard">
         <span class="list-item-text primary-text">
-          <mat-icon style="vertical-align: bottom;">dashboard</mat-icon>
+          <mat-icon style="vertical-align: bottom">dashboard</mat-icon>
           Dashboard
         </span>
-        </a>
-      <a mat-list-item routerLinkActive="active" routerLink="/users/overview"><span class="list-item-text primary-text">
-        <mat-icon style="vertical-align: bottom;">group</mat-icon>
-        Users</span></a>
-      <a mat-list-item routerLinkActive="active" routerLink="/students"> <span class="list-item-text primary-text">
-        <mat-icon style="vertical-align: bottom;">emoji_objects</mat-icon>
-        Students</span></a>
-      <a mat-list-item routerLinkActive="active" routerLink="/schedules"><span class="list-item-text primary-text">
-        <mat-icon style="vertical-align: bottom;">calendar_month</mat-icon>
-        Schedules</span></a>
-      <a mat-list-item routerLinkActive="active" routerLink="/settings"><span class="list-item-text primary-text">
-        <mat-icon style="vertical-align: bottom;">settings</mat-icon>
-        Settings</span></a>
+      </a>
+      <a mat-list-item routerLinkActive="active" routerLink="/users/overview"
+        ><span class="list-item-text primary-text">
+          <mat-icon style="vertical-align: bottom">group</mat-icon>
+          Users</span
+        >
+      </a>
+      <a mat-list-item routerLinkActive="active" routerLink="/students">
+        <span class="list-item-text primary-text">
+          <mat-icon style="vertical-align: bottom">emoji_objects</mat-icon>
+          Students
+        </span>
+      </a>
+      <a mat-list-item routerLinkActive="active" routerLink="/schedules"
+        ><span class="list-item-text primary-text">
+          <mat-icon style="vertical-align: bottom">calendar_month</mat-icon>
+          Schedules
+        </span>
+      </a>
+      <a mat-list-item routerLinkActive="active" routerLink="/services"
+      ><span class="list-item-text primary-text">
+        <mat-icon style="vertical-align: bottom">design_services</mat-icon>
+        Services
+      </span>
+    </a>
+      <a mat-list-item routerLinkActive="active" routerLink="/settings"
+        ><span class="list-item-text primary-text">
+          <mat-icon style="vertical-align: bottom">settings</mat-icon>
+          Settings
+        </span>
+      </a>
     </mat-nav-list>
   </mat-sidenav>
 
-  <mat-sidenav-content style="height:100%;" class="backgroundColor">
+  <mat-sidenav-content style="height: 100%" class="backgroundColor">
     <!-- Pages -->
     <app-header [company]="company" [user]="user"></app-header>
     <ng-content></ng-content>

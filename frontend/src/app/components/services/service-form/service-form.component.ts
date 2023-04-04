@@ -1,6 +1,15 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { take } from 'rxjs';
+import { RequestCompanyService } from 'src/app/models/companyServiceModels';
 import { CompanyServiceService } from 'src/app/services/company-service.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-service-form',
@@ -12,13 +21,20 @@ export class ServiceFormComponent implements OnInit, OnDestroy {
   public companyServiceForm: FormGroup;
   public colorOptions: string[];
 
-  get name() {return this.companyServiceForm.get('name')};
-  get color() {return this.companyServiceForm.get('color')}
-  get description() {return this.companyServiceForm.get('description')}
+  get name() {
+    return this.companyServiceForm.get('name');
+  }
+  get color() {
+    return this.companyServiceForm.get('color');
+  }
+  get description() {
+    return this.companyServiceForm.get('description');
+  }
 
   constructor(
     private fb: FormBuilder,
-    private companyServiceService: CompanyServiceService
+    private companyServiceService: CompanyServiceService,
+    private notificationService: NotificationService
   ) {}
 
   private createCompanyServiceForm() {
@@ -35,10 +51,25 @@ export class ServiceFormComponent implements OnInit, OnDestroy {
   }
 
   public onSubmit() {
-    
+    const service: RequestCompanyService = {
+      name: this.name?.value,
+      color: this.color?.value,
+      description: this.description?.value,
+    };
+    this.companyServiceService
+      .createService(service)
+      .pipe(take(1))
+      .subscribe((s) => {
+        if (s) {
+          this.companyServiceService.refreshCompanyServiceList();
+          this.notificationService.success('Service Saved Successfully!');
+          this.close();
+        }
+      });
   }
 
   public close() {
+    this.companyServiceForm.reset();
     this.onClose.emit();
   }
 

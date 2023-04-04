@@ -1,7 +1,6 @@
 import { Company } from "./companyModels";
 
 export interface RequestCompanyService {
-    company: string;
     name: string;
     color: string;
     description: string;

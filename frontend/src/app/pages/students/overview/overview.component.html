@@ -1,10 +1,10 @@
 <div class="full-page-m" fxLayout="row" fxLayoutAlign="center start">
    <mat-drawer-container style="background: transparent !important;" class="full-width example-container" style="height: 100%" >
     <mat-drawer #drawer class="content-sidenav" mode="over" position="end" >
-        <app-student-form [companyId]="companyId" (onClose)="onFlyoutClose($event)" [student]="selectedStudent"></app-student-form>
+        <app-student-form #studentForm [companyId]="companyId" (onClose)="onFlyoutClose($event)" [student]="selectedStudent"></app-student-form>
     </mat-drawer>
     <div style="width: calc(100% - 48px); margin:24px auto;">
-        <app-students-table (onStudentEdit)="onStudentEdit($event)" [students]="students"></app-students-table>
+        <app-students-table (onGetDetails)="onGetDetails($event)" (onDelete)="onDelete($event)" (onStudentEdit)="onStudentEdit($event)" [students]="students"></app-students-table>
     </div>
   </mat-drawer-container>
  </div>

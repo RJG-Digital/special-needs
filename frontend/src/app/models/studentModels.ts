@@ -21,7 +21,7 @@ export interface RequestStudent {
     email?:string
     teacher: string;
     homeroomNumber: number;
-    company: string;
+    company?: string;
     grade: number;
     profileImage: string;
     gender: string;

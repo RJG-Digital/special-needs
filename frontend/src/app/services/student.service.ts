@@ -32,9 +32,15 @@ export class StudentService implements OnDestroy {
   }
 
   public createStudent(student: RequestStudent): Observable<RequestStudent> {
-    console.log(this.baseEndpoint);
-    console.log(student)
     return this.http.post<RequestStudent>(`${this.baseEndpoint}`, student);
+  }
+
+  public updateStudent(id: string, student: RequestStudent): Observable<RequestStudent> {
+    return this.http.put<RequestStudent>(`${this.baseEndpoint}/${id}`, student);
+  }
+
+  public deleteStudent(id: string): Observable<RequestStudent> {
+    return this.http.delete<RequestStudent>(`${this.baseEndpoint}/${id}`);
   }
 
   public refreshStudentsList() {

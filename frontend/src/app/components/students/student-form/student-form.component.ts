@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { take } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { RequestStudent, Student } from 'src/app/models/studentModels';
 import { NotificationService } from 'src/app/services/notification.service';
 import { StudentService } from 'src/app/services/student.service';
@@ -18,11 +18,13 @@ import { StudentService } from 'src/app/services/student.service';
   styleUrls: ['./student-form.component.scss'],
 })
 export class StudentFormComponent implements OnInit, OnDestroy {
-  @Input() student: Student;
+  @Input() student: Student | null;
   @Input() companyId: string | null;
   @Output() onClose = new EventEmitter();
 
+  public isEdit = false;
   public studentForm: FormGroup;
+  private unsubscribe = new Subject<void>();
 
   get firstName() {
     return this.studentForm.get('firstName');
@@ -65,7 +67,8 @@ export class StudentFormComponent implements OnInit, OnDestroy {
     this.buidForm();
   }
 
-  private buidForm() {
+  public buidForm() {
+    console.log(this.student);
     this.studentForm = this.fb.group({
       firstName: [
         this.student?.firstName ? this.student.firstName : '',
@@ -117,8 +120,8 @@ export class StudentFormComponent implements OnInit, OnDestroy {
         email: this.email?.value,
         homeroomNumber: this.homeroomNumber?.value,
         grade: this.grade?.value,
-        company: '',
-        profileImage: '',
+        company:  this.student ? this.student?.company?._id : '',
+        profileImage: this.student ? this.student.profileImage : '',
         gender: this.gender?.value,
         carTag: this.carTag?.value,
         schoolIssuedId: this.schoolIssuedId?.value,
@@ -128,19 +131,39 @@ export class StudentFormComponent implements OnInit, OnDestroy {
       } else if (this.companyId) {
         student.company = this.companyId;
       }
-
-      this.studentService
-        .createStudent(student)
-        .pipe(take(1))
-        .subscribe((s: RequestStudent) => {
-          if (s) {
-            this.notificationService.success('Student saved successfully.');
-            this.studentService.refreshStudentsList();
-            this.studentForm.reset();
-          }
-        });
+      if (this.isEdit) {
+        if (this.student) {
+          this.studentService
+            .updateStudent(this.student._id, student)
+            .pipe(take(1))
+            .subscribe((s: RequestStudent) => {
+              if (s) {
+                console.log('Updated: ', s);
+                this.notificationService.success('Student saved successfully.');
+                this.studentService.refreshStudentsList();
+                this.studentForm.reset();
+                this.close();
+              }
+            });
+        }
+      } else {
+        this.studentService
+          .createStudent(student)
+          .pipe(take(1))
+          .subscribe((s: RequestStudent) => {
+            if (s) {
+              this.notificationService.success('Student saved successfully.');
+              this.studentService.refreshStudentsList();
+              this.studentForm.reset();
+              this.close();
+            }
+          });
+      }
     }
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
 }

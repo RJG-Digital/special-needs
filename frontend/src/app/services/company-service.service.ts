@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { RequestCompanyService } from '../models/companyServiceModels';
 import { EndpointService } from './endpoint.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CompanyServiceService {
+export class CompanyServiceService implements OnDestroy {
   public companyServiceColorOptions: string[] = [
     '#68AF99',
     '#723B86',
@@ -19,6 +19,7 @@ export class CompanyServiceService {
   ];
   private baseEndpoint = ''
   public companyServices$ = new BehaviorSubject<any>(null)
+  private unsubscribe = new Subject<void>();
 
   constructor(
     private http: HttpClient, 
@@ -38,4 +39,14 @@ export class CompanyServiceService {
    public createService(companyService: RequestCompanyService) {
     return this.http.post(`${this.baseEndpoint}`, companyService)
    }
+   public refreshCompanyServiceList() {
+      this.getServices()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(services => this.companyServices$.next(services))
+  }
+
+  ngOnDestroy(): void {
+   this.unsubscribe.next();
+   this.unsubscribe.complete();
+  }
 }

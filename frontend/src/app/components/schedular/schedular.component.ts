@@ -140,7 +140,7 @@ export class SchedularComponent implements OnInit, OnDestroy {
     args.data = args.data?.map((d: any) => {
       return { ...d, RecurrenceRule: this.recurrenceRule };
     });
-    console.log('On Action Complete:', args)
+    console.log('On Action Complete:', args);
   }
 
   public onRecurrenceEditorChange(event: any, data: any) {
@@ -150,17 +150,22 @@ export class SchedularComponent implements OnInit, OnDestroy {
   }
 
   private updateDB() {
-    console.log(this.scheduleObj.getEvents());
-    this.schedule.calenderEvents =
-      this.scheduleObj.getEvents() as ResponseCalendarEvents[];
+    const mappedData = this.scheduleObj.getEvents().map((e) => {
+      return {
+        ...e,
+        Service: e['Service'] && e['Service'].length ? e['Service'] : null,
+        Student: e['Student'] && e['Student'].length ? e['Student'] : null,
+      };
+    });
+    this.schedule.calenderEvents = mappedData as ResponseCalendarEvents[];
     if (this.schedule._id) {
-      const deleteSchedule = {...this.schedule, calenderEvents: [] }
+      const deleteSchedule = { ...this.schedule, calenderEvents: [] };
       this.scheduleService
-      .updateSchedule(this.schedule?._id, this.schedule as any)
-      .pipe(take(1))
-      .subscribe((s) => {
-        console.log(s);
-      });
+        .updateSchedule(this.schedule?._id, this.schedule as any)
+        .pipe(take(1))
+        .subscribe((s) => {
+          console.log(s);
+        });
     }
   }
 

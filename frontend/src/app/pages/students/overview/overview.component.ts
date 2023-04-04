@@ -6,10 +6,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
+import { StudentFormComponent } from 'src/app/components/students/student-form/student-form.component';
 import { Company } from 'src/app/models/companyModels';
 import { Student } from 'src/app/models/studentModels';
 import { CompanyService } from 'src/app/services/company.service';
+import { NotificationService } from 'src/app/services/notification.service';
 import { StudentService } from 'src/app/services/student.service';
 
 @Component({
@@ -25,10 +27,11 @@ export class OverviewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private unsubscribe = new Subject<void>();
   @ViewChild('drawer') drawer: MatDrawer;
-
+  @ViewChild('studentForm') studentForm: StudentFormComponent;
   constructor(
     private studentService: StudentService,
-    private companyService: CompanyService
+    private companyService: CompanyService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -60,8 +63,14 @@ export class OverviewComponent implements OnInit, OnDestroy, AfterViewInit {
   public onStudentEdit(student: Student | null) {
     if (student) {
       // Edit
+      this.studentForm.isEdit = true;
+      this.studentForm.student = student;
+      this.studentForm.buidForm();
+      this.drawer.toggle();
     } else {
       // Add
+      this.studentForm.student = null;
+      this.studentForm.isEdit = false;
       console.log('Adding student!');
       this.drawer.toggle();
     }
@@ -70,6 +79,21 @@ export class OverviewComponent implements OnInit, OnDestroy, AfterViewInit {
   public onFlyoutClose(saved:boolean) {
     if(saved) {}
     this.drawer.close();
+  }
+
+  public onGetDetails(s: Student) {
+    console.log('Details: ', s);
+  }
+
+  public onDelete(id: string) {
+    this.studentService.deleteStudent(id)
+    .pipe(take(1))
+    .subscribe((s) => {
+      if(s) {
+        this.notificationService.success('Student deleted successfully!');
+        this.studentService.refreshStudentsList();
+      }
+    })
   }
 
   ngOnDestroy(): void {

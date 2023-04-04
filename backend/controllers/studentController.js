@@ -12,7 +12,13 @@ const getStudent =  asyncHandler(async (req, res) => {
     const{id} = req.params;
     const student = await Student.findById(id).populate('company');
     res.status(200).json(student? student : null);
-})
+});
+
+const updateStudent =  asyncHandler(async (req, res) => {
+    const{id} = req.params;
+    const student = await Student.findByIdAndUpdate(id,req.body );
+    res.status(200).json(student? student : null);
+});
 
 const createStudent =  asyncHandler(async (req, res) => {
     const{
@@ -35,6 +41,7 @@ const createStudent =  asyncHandler(async (req, res) => {
         homeroomNumber,
         company,
         grade, 
+        email,
         profileImage: profileImage ? profileImage : gravatar.url(email, { s: '300', r: 'x', d: 'wavatar' }), 
         gender, 
         carTag, 
@@ -46,8 +53,18 @@ const createStudent =  asyncHandler(async (req, res) => {
     }
     res.status(200).json(student? student : null);
 });
+
+const deleteStudent = asyncHandler(async (req, res) => {
+    const{id} = req.params;
+    const students = await Student.findByIdAndDelete(id);
+    res.status(200).json(students ? students : []);
+})
+
+
 export {
     getStudents,
     getStudent,
-    createStudent
+    createStudent,
+    deleteStudent,
+    updateStudent
 }

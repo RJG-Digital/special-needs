@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { ResponseCompanyService } from 'src/app/models/companyServiceModels';
+import { CompanyServiceService } from 'src/app/services/company-service.service';
 
 @Component({
   selector: 'app-overview',
@@ -15,11 +16,16 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
   @ViewChild('drawer') drawer: MatDrawer;
 
-  constructor(){}
+  constructor(private companyServiceService: CompanyServiceService){}
 
   ngOnInit(): void {
-
+    this.companyServiceService.companyServices$
+    .pipe(takeUntil(this.unsubscribe))
+    .subscribe((s) => {
+      this.companyServices = s;
+    })
   }
+
   public onColorEdit(event: ResponseCompanyService | null) {
     if (event) {
       // Edit

@@ -11,7 +11,12 @@
     <!-- Color Column -->
     <ng-container matColumnDef="color">
         <th mat-header-cell *matHeaderCellDef> Color </th>
-        <td mat-cell *matCellDef="let element"> {{element.color}} </td>
+        <td mat-cell *matCellDef="let element"> 
+          <div fxLayout="row">
+            <span class="color-dot" [style.background]="element.color"></span>
+            <span style="margin: auto 1rem;" [style.color]="element.color">{{element.color}}</span>
+          </div>
+        </td>
     </ng-container>
     <!-- Description Column -->
     <ng-container matColumnDef="description" >

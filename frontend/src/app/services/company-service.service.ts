@@ -10,12 +10,14 @@ import { EndpointService } from './endpoint.service';
 export class CompanyServiceService implements OnDestroy {
   public companyServiceColorOptions: string[] = [
     '#68AF99',
-    '#723B86',
     '#DE92DA',
-    '#695C95',
     '#8138DA',
-    '#FDAEFC',
-    '#1049B1',
+    '#3f51b5',
+    '#f44336',
+    "#4caf50",
+    "#ffeb3b",
+    "#ff9100",
+    "#00e5ff"
   ];
   private baseEndpoint = ''
   public companyServices$ = new BehaviorSubject<any>(null)

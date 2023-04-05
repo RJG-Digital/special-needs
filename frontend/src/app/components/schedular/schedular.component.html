@@ -2,6 +2,7 @@
   <ejs-schedule
     #schedularObj
     [editorTemplate]="eventEditorTemplate"
+    (eventRendered)="onEventRendered($event)"
     (actionBegin)="onActionBegin($event)"
     (actionComplete)="onActionComplete($event)"
     (popupOpen)="onPopupOpen($event)"
@@ -75,8 +76,8 @@
                 class="e-field"
                 value="{{ data.Service }}"
                 placeholder="Choose Service"
-                [dataSource]="mappedStudents"
-                [fields]="studentFields"
+                [dataSource]="mappedServices"
+                [fields]="serviceFields"
               ></ejs-dropdownlist>
             </td>
           </tr>

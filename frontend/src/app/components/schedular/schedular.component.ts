@@ -15,6 +15,7 @@ import {
   View,
 } from '@syncfusion/ej2-angular-schedule';
 import { Subject, take, takeUntil } from 'rxjs';
+import { ResponseCompanyService } from 'src/app/models/companyServiceModels';
 import { Student } from 'src/app/models/studentModels';
 import {
   ResponseCalendarEvents,
@@ -38,15 +39,17 @@ export class SchedularComponent implements OnInit, OnDestroy {
   public repeatEndOptionFields: Object = { text: 'text', value: 'value' };
   public repeatOptionFields: Object = { text: 'text', value: 'value' };
   public studentFields: Object = { text: 'studentName', value: 'studentId' };
+  public serviceFields: Object = { text: 'serviceName', value: 'serviceId' };
   public mappedStudents: any;
   public mappedServices: any;
   public eventSettings: EventSettingsModel;
   public isServiceDropdownEnabled = false;
   public recurrenceRule: any;
-
+  public companyServices: ResponseCompanyService[];
   private unsubscribe = new Subject<void>();
 
   @ViewChild('schedularObj') public scheduleObj: ScheduleComponent;
+  @ViewChild('eventTemplate') public eventTemplate: any;
   @ViewChild('serviceDropdown') public serviceDropdown: DropDownListComponent;
   @ViewChild('studentDropdown') public studentDropdown: DropDownListComponent;
   @ViewChild('recurrenceEditor') public recurrenceEditor: RecurrenceEditor;
@@ -57,6 +60,22 @@ export class SchedularComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.studentService.refreshStudentsList();
+    this.studentService.students$
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((s) => {
+        if (s) {
+          this.studentsList = s;
+          if (this.studentsList && this.studentsList.length) {
+            this.mappedStudents = this.studentsList.map((s) => {
+              return {
+                studentName: `${s.firstName} ${s.lastName}`,
+                studentId: s._id,
+              };
+            });
+          }
+        }
+      });
     if (this.schedule && this.schedule.calenderEvents) {
       console.log(this.schedule.calenderEvents);
       this.eventSettings = {
@@ -84,22 +103,6 @@ export class SchedularComponent implements OnInit, OnDestroy {
           : [],
       };
     }
-    this.studentService.refreshStudentsList();
-    this.studentService.students$
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((s) => {
-        if (s) {
-          this.studentsList = s;
-          if (this.studentsList && this.studentsList.length) {
-            this.mappedStudents = this.studentsList.map((s) => {
-              return {
-                studentName: `${s.firstName} ${s.lastName}`,
-                studentId: s._id,
-              };
-            });
-          }
-        }
-      });
   }
 
   public dateParser(date: any) {
@@ -108,6 +111,14 @@ export class SchedularComponent implements OnInit, OnDestroy {
 
   public onStudentChange(args: any) {
     if (args.value) {
+      this.mappedServices = this.studentsList
+        .find((s) => s._id === args.value)
+        ?.services?.map((service: any) => {
+          return {
+            serviceName: service.service.name,
+            serviceId: service._id,
+          };
+        });
       this.isServiceDropdownEnabled = true;
       this.serviceDropdown.dataBind();
     }
@@ -159,7 +170,6 @@ export class SchedularComponent implements OnInit, OnDestroy {
     });
     this.schedule.calenderEvents = mappedData as ResponseCalendarEvents[];
     if (this.schedule._id) {
-      const deleteSchedule = { ...this.schedule, calenderEvents: [] };
       this.scheduleService
         .updateSchedule(this.schedule?._id, this.schedule as any)
         .pipe(take(1))
@@ -171,6 +181,30 @@ export class SchedularComponent implements OnInit, OnDestroy {
 
   public onDataBound() {
     this.updateDB();
+  }
+
+  public onEventRendered(args: any) {
+    setTimeout(() => {
+      if (this.studentsList) {
+        const studentId = args.data.Student;
+        const studentServiceId = args.data.Service;
+        const student = this.studentsList.find((s) => s._id === studentId);
+        if (student) {
+          const FoundService = student.services.find(
+            (service) => service._id === studentServiceId
+          );
+          if (FoundService) {
+            const color = FoundService.service.color;
+            if (this.scheduleObj.currentView === 'Agenda') {
+              (args.element.firstChild as HTMLElement).style.borderLeftColor =
+                color;
+            } else {
+              args.element.style.backgroundColor = color;
+            }
+          }
+        }
+      }
+    }, 100);
   }
 
   ngOnDestroy(): void {

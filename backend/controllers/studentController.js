@@ -6,7 +6,13 @@ const getStudents = asyncHandler(async (req, res) => {
   const { companyId } = req.params;
   const students = await Student.find({ company: companyId }).populate(
     "company"
-  );
+  ).populate({
+    path: 'services',
+    populate: {
+      path: 'service',
+      model: 'companyService'
+    }
+  });
   res.status(200).json(students ? students : []);
 });
 

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
-import { RequestCompanyService } from '../models/companyServiceModels';
+import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
+import { RequestCompanyService, ResponseCompanyService } from '../models/companyServiceModels';
 import { EndpointService } from './endpoint.service';
 
 @Injectable({
@@ -28,8 +28,8 @@ export class CompanyServiceService implements OnDestroy {
     this.baseEndpoint = endpointService.getCompanyServiceEndpoint();
    }
 
-   public getServices() {
-    return this.http.get(`${this.baseEndpoint}`)
+   public getServices(): Observable<ResponseCompanyService[]> {
+    return this.http.get<ResponseCompanyService[]>(`${this.baseEndpoint}`)
    }
 
    public getService(id: string) {

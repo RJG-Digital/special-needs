@@ -8,7 +8,13 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject, take, takeUntil } from 'rxjs';
+import { ResponseCompanyService } from 'src/app/models/companyServiceModels';
 import { RequestStudent, Student } from 'src/app/models/studentModels';
+import {
+  ResponseStudentService,
+  StudentServiceTableMeta,
+} from 'src/app/models/studentServiceModels';
+import { CompanyServiceService } from 'src/app/services/company-service.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { StudentService } from 'src/app/services/student.service';
 
@@ -22,8 +28,22 @@ export class StudentFormComponent implements OnInit, OnDestroy {
   @Input() companyId: string | null;
   @Output() onClose = new EventEmitter();
 
+  public displayedColumns = [
+    'assigend',
+    'name',
+    'color',
+    'minutesAssigned',
+    'minutesUsed',
+    'minutesLeft',
+    'actions',
+  ];
   public isEdit = false;
   public studentForm: FormGroup;
+  public studentServiceForm: FormGroup;
+  public companyServices: ResponseCompanyService[];
+  public studentServices: ResponseStudentService[];
+  public tableStudentServices: StudentServiceTableMeta[];
+  public enableEdit = false;
   private unsubscribe = new Subject<void>();
 
   get firstName() {
@@ -60,15 +80,50 @@ export class StudentFormComponent implements OnInit, OnDestroy {
   constructor(
     private studentService: StudentService,
     private fb: FormBuilder,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private companyServiceService: CompanyServiceService
   ) {}
 
   ngOnInit(): void {
+    this.getCompanyServices();
     this.buidForm();
   }
 
+  public getCompanyServices() {
+    this.companyServiceService
+      .getServices()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((s) => {
+        this.companyServices = s;
+      });
+  }
+
   public buidForm() {
-    console.log(this.student);
+    console.log('Company Services: ', this.companyServices);
+    console.log('Student: ', this.student);
+    if (this.companyServices) {
+      this.tableStudentServices = this.companyServices.map((cs) => {
+        const foundService = this.student?.services.find(
+          (s) => s.service === cs._id as any
+        );
+        return {
+          assigned: foundService ? true : false,
+          name: cs.name,
+          color: cs.color,
+          minutesAssigned: foundService?.minutesAssigned
+            ? foundService?.minutesAssigned
+            : 0,
+          minutesUsed: foundService?.minutesUsed
+            ? foundService?.minutesUsed
+            : 0,
+          minutesLeft: foundService?.minutesLeft
+            ? foundService?.minutesLeft
+            : 0,
+          serviceId: cs._id,
+        };
+      });
+    }
+    console.log('tableServices: ', this.tableStudentServices);
     this.studentForm = this.fb.group({
       firstName: [
         this.student?.firstName ? this.student.firstName : '',
@@ -120,11 +175,12 @@ export class StudentFormComponent implements OnInit, OnDestroy {
         email: this.email?.value,
         homeroomNumber: this.homeroomNumber?.value,
         grade: this.grade?.value,
-        company:  this.student ? this.student?.company?._id : '',
+        company: this.student ? this.student?.company?._id : '',
         profileImage: this.student ? this.student.profileImage : '',
         gender: this.gender?.value,
         carTag: this.carTag?.value,
         schoolIssuedId: this.schoolIssuedId?.value,
+        services: [],
       };
       if (this.student && this.student.company && this.student.company._id) {
         student.company = this.student.company._id;
@@ -160,6 +216,29 @@ export class StudentFormComponent implements OnInit, OnDestroy {
           });
       }
     }
+  }
+
+  public onCheckChange(event: any, element: any) {
+    element.assigned = event.checked;
+    console.log('Event check fired: ', event);
+    console.log('Element Changed: ', element);
+    console.log('Table Data', this.tableStudentServices);
+  }
+
+  public saveServices() {
+    console.log('Submitting Services: ', this.tableStudentServices);
+    if (this.student?._id) {
+      this.studentService
+        .updateStudentServices(this.student?._id, this.tableStudentServices)
+        .pipe(take(1))
+        .subscribe((res) => {
+          console.log(res);
+        });
+    }
+  }
+
+  public updateMinutes(element: any) {
+    element.minutesLeft = element.minutesAssigned - element.minutesUsed;
   }
 
   ngOnDestroy(): void {

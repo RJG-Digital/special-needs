@@ -4,12 +4,12 @@ import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 import { RequestStudent, Student } from '../models/studentModels';
 import { EndpointService } from './endpoint.service';
 import { SessionStorageService } from './session-storage.service';
+import { StudentServiceTableMeta } from '../models/studentServiceModels';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StudentService implements OnDestroy {
-  
   public students$ = new BehaviorSubject<Student[]>([]);
 
   private baseEndpoint = '';
@@ -28,14 +28,19 @@ export class StudentService implements OnDestroy {
   }
 
   public getStudents(companyId: string): Observable<Student[]> {
-    return this.http.get<Student[]>(`${this.baseEndpoint}/company/${companyId}`);
+    return this.http.get<Student[]>(
+      `${this.baseEndpoint}/company/${companyId}`
+    );
   }
 
   public createStudent(student: RequestStudent): Observable<RequestStudent> {
     return this.http.post<RequestStudent>(`${this.baseEndpoint}`, student);
   }
 
-  public updateStudent(id: string, student: RequestStudent): Observable<RequestStudent> {
+  public updateStudent(
+    id: string,
+    student: RequestStudent
+  ): Observable<RequestStudent> {
     return this.http.put<RequestStudent>(`${this.baseEndpoint}/${id}`, student);
   }
 
@@ -45,11 +50,21 @@ export class StudentService implements OnDestroy {
 
   public refreshStudentsList() {
     const companyId = this.sessionStorageService.getCompanyId();
-    if(companyId) {
+    if (companyId) {
       this.getStudents(companyId)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(students => this.students$.next(students))
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe((students) => this.students$.next(students));
     }
+  }
+
+  public updateStudentServices(
+    studentId: string,
+    data: StudentServiceTableMeta[]
+  ): Observable<Student> {
+    return this.http.put<Student>(
+      `${this.baseEndpoint}/${studentId}/services`,
+      data
+    );
   }
 
   ngOnDestroy(): void {

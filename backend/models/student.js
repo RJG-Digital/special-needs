@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import studentServiceSchema from './studentService.js'
 const studentSchema = mongoose.Schema(
   {
     firstName: {
@@ -21,6 +21,10 @@ const studentSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "company",
       default: null,
+    },
+    services: {
+      type: [studentServiceSchema],
+      default: []
     },
     grade: {
       type: Number

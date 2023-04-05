@@ -1,86 +1,175 @@
-<form [formGroup]="studentForm" style="margin: 24px;">
-    <div fxLayout="column" fxLayoutAlign="center center">
-        <h1 class="primary-text mb-1" style="margin-top: 0;" >{{isEdit ? 'Edit' : 'Add'}} student</h1>
-        <mat-divider fxFlex="90" style="width: 100%; margin-bottom:24px;"></mat-divider>
-        <!-- FirstName -->
-        <div class="full-width pb-1" fxLayout="row" fxLayoutAlign="center center" >
-            <mat-form-field fxFlex appearance="outline">
-              <mat-label>First Name</mat-label>
-              <input formControlName="firstName"  matInput />
-              <mat-error *ngIf="firstName && firstName.errors && firstName.errors['required'] && firstName.touched">
-                First name is required.
-              </mat-error>
-            </mat-form-field>
-          </div>
-                  <!-- LastName -->
-        <div class="full-width pb-1" fxLayout="row" fxLayoutAlign="center center"  >
-            <mat-form-field fxFlex appearance="outline">
-              <mat-label>Last Name</mat-label>
-              <input formControlName="lastName"  matInput />
-              <mat-error *ngIf="lastName && lastName.errors && lastName.errors['required'] && lastName.touched">
-                First name is required.
-              </mat-error>
-            </mat-form-field>
-          </div>
-                  <!-- Teacher -->
-        <div class="full-width pb-1" fxLayout="row" fxLayoutAlign="center center"  >
-            <mat-form-field fxFlex appearance="outline">
-              <mat-label>Teacher</mat-label>
-              <input formControlName="teacher"  matInput />
-              <mat-error *ngIf="teacher && teacher.errors && teacher.errors['required'] && teacher.touched">
-                Teacher is required.
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <!-- Email -->
-        <div class="full-width pb-1" fxLayout="row" fxLayoutAlign="center center"  >
-          <mat-form-field fxFlex appearance="outline">
-            <mat-label>Email</mat-label>
-            <input formControlName="email"  matInput />
-            <mat-error *ngIf="email && email.errors && email.errors['email'] && email.touched">
-              Must be a valid email format
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <!-- Homeroom -->
-        <div class="full-width pb-1" fxLayout="row" fxLayoutAlign="space-between center"  >
-            <mat-form-field fxFlex="45" appearance="outline">
-              <mat-label>Homeroom #</mat-label>
-              <input type="number" formControlName="homeroomNumber"  matInput />
-              <mat-error *ngIf="homeroomNumber && homeroomNumber.errors && homeroomNumber.errors['required'] && homeroomNumber.touched">
-                Homeroom # name is required.
-              </mat-error>
-            </mat-form-field>
-            <!-- Grade -->
-            <mat-form-field fxFlex="45" appearance="outline">
-                <mat-label>Grade #</mat-label>
-                <input type="number" formControlName="grade"  matInput />
-                <mat-error *ngIf="grade && grade.errors && grade.errors['required'] && grade.touched">
-                  Grade # is required.
+<mat-tab-group>
+  <mat-tab label="Demographics"> 
+
+    <form [formGroup]="studentForm" style="margin: 24px;">
+      <div fxLayout="column" fxLayoutAlign="center center">
+          <h1 class="primary-text mb-1" style="margin-top: 0;" >{{isEdit ? 'Edit' : 'Add'}} student</h1>
+          <mat-divider fxFlex="90" style="width: 100%; margin-bottom:24px;"></mat-divider>
+          <!-- FirstName -->
+          <div class="full-width pb-1" fxLayout="row" fxLayoutAlign="center center" >
+              <mat-form-field fxFlex appearance="outline">
+                <mat-label>First Name</mat-label>
+                <input formControlName="firstName"  matInput />
+                <mat-error *ngIf="firstName && firstName.errors && firstName.errors['required'] && firstName.touched">
+                  First name is required.
                 </mat-error>
               </mat-form-field>
+            </div>
+                    <!-- LastName -->
+          <div class="full-width pb-1" fxLayout="row" fxLayoutAlign="center center"  >
+              <mat-form-field fxFlex appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input formControlName="lastName"  matInput />
+                <mat-error *ngIf="lastName && lastName.errors && lastName.errors['required'] && lastName.touched">
+                  First name is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+                    <!-- Teacher -->
+          <div class="full-width pb-1" fxLayout="row" fxLayoutAlign="center center"  >
+              <mat-form-field fxFlex appearance="outline">
+                <mat-label>Teacher</mat-label>
+                <input formControlName="teacher"  matInput />
+                <mat-error *ngIf="teacher && teacher.errors && teacher.errors['required'] && teacher.touched">
+                  Teacher is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- Email -->
+          <div class="full-width pb-1" fxLayout="row" fxLayoutAlign="center center"  >
+            <mat-form-field fxFlex appearance="outline">
+              <mat-label>Email</mat-label>
+              <input formControlName="email"  matInput />
+              <mat-error *ngIf="email && email.errors && email.errors['email'] && email.touched">
+                Must be a valid email format
+              </mat-error>
+            </mat-form-field>
           </div>
-                  <!-- Gender -->
-        <div class="full-width pb-1" fxFlex fxLayout="row" fxLayoutAlign="space-between center"  >
-            <!-- Gender -->
-            <mat-form-field fxFlex="30" appearance="outline">
-                <mat-label>Gender</mat-label>
-                <input formControlName="gender"  matInput />
-            </mat-form-field>
-             <!-- Car Tag -->
-            <mat-form-field fxFlex="30" appearance="outline">
-                <mat-label>Car Tag</mat-label>
-                <input type="number" formControlName="carTag" matInput />
-            </mat-form-field>
-            <!-- School Issued Id # -->
-            <mat-form-field fxFlex="30" appearance="outline">
-                <mat-label>School Id</mat-label>
-                <input formControlName="schoolIssuedId"  matInput />
-            </mat-form-field>
-        </div>
-        <div fxLayout="row" style="position: absolute; bottom: 24px; width: 100%; font-size: 30px " fxLayoutAlign="space-around end" >
+          <!-- Homeroom -->
+          <div class="full-width pb-1" fxLayout="row" fxLayoutAlign="space-between center"  >
+              <mat-form-field fxFlex="45" appearance="outline">
+                <mat-label>Homeroom #</mat-label>
+                <input type="number" formControlName="homeroomNumber"  matInput />
+                <mat-error *ngIf="homeroomNumber && homeroomNumber.errors && homeroomNumber.errors['required'] && homeroomNumber.touched">
+                  Homeroom # name is required.
+                </mat-error>
+              </mat-form-field>
+              <!-- Grade -->
+              <mat-form-field fxFlex="45" appearance="outline">
+                  <mat-label>Grade #</mat-label>
+                  <input type="number" formControlName="grade"  matInput />
+                  <mat-error *ngIf="grade && grade.errors && grade.errors['required'] && grade.touched">
+                    Grade # is required.
+                  </mat-error>
+                </mat-form-field>
+            </div>
+                    <!-- Gender -->
+          <div class="full-width pb-1" fxFlex fxLayout="row" fxLayoutAlign="space-between center"  >
+              <!-- Gender -->
+              <mat-form-field fxFlex="30" appearance="outline">
+                  <mat-label>Gender</mat-label>
+                  <input formControlName="gender"  matInput />
+              </mat-form-field>
+               <!-- Car Tag -->
+              <mat-form-field fxFlex="30" appearance="outline">
+                  <mat-label>Car Tag</mat-label>
+                  <input type="number" formControlName="carTag" matInput />
+              </mat-form-field>
+              <!-- School Issued Id # -->
+              <mat-form-field fxFlex="30" appearance="outline">
+                  <mat-label>School Id</mat-label>
+                  <input formControlName="schoolIssuedId"  matInput />
+              </mat-form-field>
+          </div>
+          <div fxLayout="row" style="width: 100%; font-size: 30px; margin-top: 24px" fxLayoutAlign="space-between end" >
+              <button type="button" (click)="close()" fxFlex="45" mat-raised-button color="warn">Cancel</button>
+              <button [disabled]="studentForm.invalid" type="button" (click)="onSubmit()" fxFlex="45" mat-raised-button color="primary">{{isEdit ? 'Update' : 'Save'}}</button>
+          </div>
+      </div>
+  </form>
+
+  </mat-tab>
+  <mat-tab [disabled]="!companyServices || !companyServices.length" label="Services"> 
+    <form style="margin: 24px;">
+      <div fxLayout="column" fxLayoutAlign="center center">
+          <h1 class="primary-text mb-1" style="margin-top: 0;" >{{isEdit ? 'Edit' : 'Add'}} student</h1>
+          <mat-divider fxFlex="90" style="width: 100%; margin-bottom:24px;"></mat-divider>
+          <table *ngIf="companyServices && companyServices.length" mat-table [dataSource]="tableStudentServices" class="mat-elevation-z8">
+            <!-- Name Column -->
+            <ng-container matColumnDef="assigend">
+              <th mat-header-cell *matHeaderCellDef> Asgd </th>
+              <td mat-cell *matCellDef="let element">
+                <div fxLayout="row" >
+                   <mat-checkbox [disabled]="!enableEdit" [checked]="element.assigned" (change)="onCheckChange($event, element)" color="primary"></mat-checkbox>
+                </div>
+                  </td>
+            </ng-container>
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <td mat-cell *matCellDef="let element">
+                <div fxLayout="row" >
+                    <p style="margin:auto 10px;" fxFlex>{{element.name}}</p>
+                </div>
+                 </td>
+            </ng-container>
+            <!-- Color Column -->
+            <ng-container matColumnDef="color">
+                <th mat-header-cell *matHeaderCellDef> Color </th>
+                <td mat-cell *matCellDef="let element"> 
+                  <div fxLayout="row">
+                    <span class="color-dot" [style.background]="element.color"></span>
+                  </div>
+                </td>
+            </ng-container>
+            <!-- Actions Column -->
+            <ng-container matColumnDef="minutesAssigned">
+                <th mat-header-cell *matHeaderCellDef> 
+                  Min Asgd
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  <div fxLayout="column" fxLayoutAlign="center start"> 
+                    <span *ngIf="!enableEdit">{{element.minutesAssigned}}</span>
+                  <mat-form-field *ngIf="enableEdit" style="width:85px; margin-top:20px" appearance="outline">
+                    <input type="number" [min]="0" matInput name="minutesAssigned" [(ngModel)]="element.minutesAssigned" (change)="updateMinutes(element)">
+                  </mat-form-field>
+                  </div>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="minutesUsed">
+              <th mat-header-cell *matHeaderCellDef> 
+                Min Used
+              </th>
+              <td mat-cell *matCellDef="let element">
+                  {{element.minutesUsed}}
+              </td>
+          </ng-container>
+          <ng-container matColumnDef="minutesLeft">
+            <th mat-header-cell *matHeaderCellDef> 
+              Min Left
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <div fxLayout="column" fxLayoutAlign="center start"> 
+               {{element.minutesLeft}}
+              </div>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> 
+            <button mat-icon-button color="primary" (click)="enableEdit = !enableEdit"><mat-icon>edit</mat-icon></button>
+          </th>
+          <td mat-cell *matCellDef="let element">
+          </td>
+      </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <div fxLayout="row" style="width: 100%; font-size: 30px; margin-top: 24px" fxLayoutAlign="space-between end" >
             <button type="button" (click)="close()" fxFlex="45" mat-raised-button color="warn">Cancel</button>
-            <button [disabled]="studentForm.invalid" type="button" (click)="onSubmit()" fxFlex="45" mat-raised-button color="primary">{{isEdit ? 'Update' : 'Save'}}</button>
+            <button type="button" (click)="saveServices()" fxFlex="45" mat-raised-button color="primary">{{isEdit ? 'Update' : 'Save'}}</button>
         </div>
-    </div>
-</form>
+      </div>
+    </form>
+     </mat-tab>
+</mat-tab-group>

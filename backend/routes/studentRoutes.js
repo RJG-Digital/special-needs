@@ -1,9 +1,10 @@
 import express from 'express';
 const router = express.Router();
-import { createStudent, getStudent, getStudents, deleteStudent, updateStudent } from '../controllers/studentController.js';
+import { createStudent, getStudent, getStudents, deleteStudent, updateStudent, updateStudentServices } from '../controllers/studentController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
 router.post('/', protect, createStudent);
+router.put('/:_id/services', protect, updateStudentServices);
 router.get('/company/:companyId',protect, getStudents);
 router.get('/:id', protect, getStudent);
 router.put('/:id', protect, updateStudent);

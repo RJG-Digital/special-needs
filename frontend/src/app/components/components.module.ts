@@ -10,7 +10,7 @@ import { SideNavComponent } from './nav/side-nav/side-nav.component';
 import { FooterComponent } from './nav/footer/footer.component';
 import { HeaderComponent } from './nav/header/header.component';
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SnackbarComponent } from './snackbar/snackbar.component';
 import { ForgotPasswordFormComponent } from './auth/forgot-password-form/forgot-password-form.component';
 import { UsersTableComponent } from './users/users-table/users-table.component';
@@ -45,6 +45,7 @@ import { ServiceFormComponent } from './services/service-form/service-form.compo
     FlexLayoutModule,
     RouterModule,
     ReactiveFormsModule,
+    FormsModule
   ],
   exports: [
     LoginFormComponent,

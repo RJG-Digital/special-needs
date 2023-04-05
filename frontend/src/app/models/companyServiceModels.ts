@@ -7,6 +7,7 @@ export interface RequestCompanyService {
 }
 
 export interface ResponseCompanyService {
+    _id: string
     company: Company;
     name: string;
     color: string;

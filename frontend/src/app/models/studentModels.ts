@@ -1,4 +1,5 @@
 import { Company } from "./companyModels";
+import { RequestStudentService, ResponseStudentService } from "./studentServiceModels";
 
 export interface Student {
     _id: string
@@ -13,6 +14,7 @@ export interface Student {
     gender: string;
     carTag: number;
     schoolIssuedId: string;
+    services: ResponseStudentService[]
 }
 export interface RequestStudent {
     _id?: string
@@ -27,4 +29,5 @@ export interface RequestStudent {
     gender: string;
     carTag: number;
     schoolIssuedId: string;
+    services: RequestStudentService[]
 }

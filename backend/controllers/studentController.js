@@ -76,6 +76,8 @@ const updateStudentServices = asyncHandler(async (req, res) => {
   let foundStudent = await Student.findById(_id);
   if(foundStudent) {
     const servicesToAssign = newServiceData.filter(s => s.assigned);
+    console.log('Icoming services: ', servicesToAssign);
+    console.log('CurrentServices: ', foundStudent.services)
     if(servicesToAssign) {
       foundStudent.services = servicesToAssign.map(s => {
         return {

@@ -127,11 +127,12 @@
                 <th mat-header-cell *matHeaderCellDef> 
                   Min Asgd
                 </th>
-                <td mat-cell *matCellDef="let element">
+                <td mat-cell *matCellDef="let element; index as i">
                   <div fxLayout="column" fxLayoutAlign="center start"> 
                     <span *ngIf="!enableEdit">{{element.minutesAssigned}}</span>
                   <mat-form-field *ngIf="enableEdit" style="width:85px; margin-top:20px" appearance="outline">
-                    <input type="number" [min]="0" matInput name="minutesAssigned" [(ngModel)]="element.minutesAssigned" (change)="updateMinutes(element)">
+                    <input type="number" [min]="0" matInput [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="element.minutesAssigned" (change)="updateMinutes(element)">
                   </mat-form-field>
                   </div>
                 </td>

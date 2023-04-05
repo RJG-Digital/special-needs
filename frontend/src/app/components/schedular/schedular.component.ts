@@ -21,6 +21,7 @@ import {
   ResponseCalendarEvents,
   ResponseUserSchedule,
 } from 'src/app/models/userScheduleModels';
+import { CompanyServiceService } from 'src/app/services/company-service.service';
 import { ScheduleService } from 'src/app/services/schedule.service';
 import { StudentService } from 'src/app/services/student.service';
 
@@ -56,10 +57,16 @@ export class SchedularComponent implements OnInit, OnDestroy {
 
   constructor(
     private studentService: StudentService,
-    private scheduleService: ScheduleService
+    private scheduleService: ScheduleService,
+    private companyServiceService: CompanyServiceService,
   ) {}
 
   ngOnInit(): void {
+    this.companyServiceService.companyServices$
+    .pipe(takeUntil(this.unsubscribe))
+    .subscribe(companyServices => {
+      this.companyServices = companyServices;
+    })
     this.studentService.refreshStudentsList();
     this.studentService.students$
       .pipe(takeUntil(this.unsubscribe))
@@ -73,11 +80,11 @@ export class SchedularComponent implements OnInit, OnDestroy {
                 studentId: s._id,
               };
             });
+            
           }
         }
       });
     if (this.schedule && this.schedule.calenderEvents) {
-      console.log(this.schedule.calenderEvents);
       this.eventSettings = {
         dataSource: this.schedule.calenderEvents
           ? this.schedule.calenderEvents.map((c) => {
@@ -115,8 +122,8 @@ export class SchedularComponent implements OnInit, OnDestroy {
         .find((s) => s._id === args.value)
         ?.services?.map((service: any) => {
           return {
-            serviceName: service.service.name,
-            serviceId: service._id,
+            serviceName: service.service.name, //company service cred here (horid naming)
+            serviceId: service.service._id, //company service cred here (horid naming)
           };
         });
       this.isServiceDropdownEnabled = true;
@@ -127,6 +134,17 @@ export class SchedularComponent implements OnInit, OnDestroy {
     if (args.type === 'Editor' && !args.data.Student) {
       this.isServiceDropdownEnabled = false;
       this.serviceDropdown.dataBind();
+    } else if(args.type === 'Editor' && args.data.Student) {
+      this.mappedServices = this.studentsList
+        .find((s) => s._id === args.data.Student)
+        ?.services?.map((service: any) => {
+          return {
+            serviceName: service.service.name, //company service cred here (horid naming)
+            serviceId: service.service._id, //company service cred here (horid naming)
+          };
+        });
+        this.isServiceDropdownEnabled = true;
+        this.serviceDropdown.dataBind();
     }
   }
 
@@ -151,7 +169,6 @@ export class SchedularComponent implements OnInit, OnDestroy {
     args.data = args.data?.map((d: any) => {
       return { ...d, RecurrenceRule: this.recurrenceRule };
     });
-    console.log('On Action Complete:', args);
   }
 
   public onRecurrenceEditorChange(event: any, data: any) {
@@ -185,16 +202,13 @@ export class SchedularComponent implements OnInit, OnDestroy {
 
   public onEventRendered(args: any) {
     setTimeout(() => {
+      
       if (this.studentsList) {
         const studentId = args.data.Student;
-        const studentServiceId = args.data.Service;
-        const student = this.studentsList.find((s) => s._id === studentId);
-        if (student) {
-          const FoundService = student.services.find(
-            (service) => service._id === studentServiceId
-          );
-          if (FoundService) {
-            const color = FoundService.service.color;
+        const companyServiceId = args.data.Service;
+        const foundService = this.companyServices.find(cs => cs._id === companyServiceId);
+          if (foundService) {
+            const color = foundService.color;
             if (this.scheduleObj.currentView === 'Agenda') {
               (args.element.firstChild as HTMLElement).style.borderLeftColor =
                 color;
@@ -203,7 +217,6 @@ export class SchedularComponent implements OnInit, OnDestroy {
             }
           }
         }
-      }
     }, 100);
   }
 

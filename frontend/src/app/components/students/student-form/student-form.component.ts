@@ -105,8 +105,9 @@ export class StudentFormComponent implements OnInit, OnDestroy {
     if (this.companyServices) {
       this.tableStudentServices = this.companyServices.map((cs) => {
         const foundService = this.student?.services.find(
-          (s) => s.service === cs._id as any
+          (s) => s.service._id === cs._id as any
         );
+        console.log('Found Service', foundService)
         return {
           assigned: foundService ? true : false,
           name: cs.name,
@@ -121,6 +122,7 @@ export class StudentFormComponent implements OnInit, OnDestroy {
             ? foundService?.minutesLeft
             : 0,
           serviceId: cs._id,
+          studentServiceId: foundService?._id ? foundService?._id : null 
         };
       });
     }

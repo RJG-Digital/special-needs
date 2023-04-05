@@ -4,6 +4,7 @@ import { User } from './models/userModels';
 import { AuthService } from './services/auth.service';
 import { CompanyService } from './services/company.service';
 import { StudentService } from './services/student.service';
+import { CompanyServiceService } from './services/company-service.service';
 
 @Component({
   selector: 'app-root',
@@ -18,10 +19,15 @@ export class AppComponent {
   constructor(
     private authService: AuthService,
     private companyService: CompanyService,
-    private studentService: StudentService
+    private companyServiceService: CompanyServiceService
   ) {}
 
   ngOnInit(): void {
+    this.companyServiceService.getServices()
+    .pipe(takeUntil(this.unsubscribe))
+    .subscribe(companyServices => {
+      this.companyServiceService.companyServices$.next(companyServices);
+    });
     this.authService.user$
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((user) => {

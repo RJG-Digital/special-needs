@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject, take, takeUntil } from 'rxjs';
 import { ResponseCompanyService } from 'src/app/models/companyServiceModels';
 import { RequestStudent, Student } from 'src/app/models/studentModels';
@@ -44,6 +44,7 @@ export class StudentFormComponent implements OnInit, OnDestroy {
   public studentServices: ResponseStudentService[];
   public tableStudentServices: StudentServiceTableMeta[];
   public enableEdit = false;
+  public selectedIndex = new FormControl(0);
   private unsubscribe = new Subject<void>();
 
   get firstName() {

@@ -63,12 +63,14 @@ export class OverviewComponent implements OnInit, OnDestroy, AfterViewInit {
   public onStudentEdit(student: Student | null) {
     if (student) {
       // Edit
+      this.studentForm.selectedIndex.setValue(0);
       this.studentForm.isEdit = true;
       this.studentForm.student = student;
       this.studentForm.buidForm();
       this.drawer.toggle();
     } else {
       // Add
+      this.studentForm.selectedIndex.setValue(0);
       this.studentForm.student = null;
       this.studentForm.isEdit = false;
       console.log('Adding student!');

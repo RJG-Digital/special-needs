@@ -1,11 +1,23 @@
 <div *ngIf="schedules" class="full-width" fxLayout="row">
-  <div fxFlex="15">
+  <div fxLayout="column" fxFlex="15">
     <mat-form-field style="margin: 24px;" appearance="outline">
       <mat-label>Schedules</mat-label>
       <mat-select [(value)]="selectedSchedule">
         <mat-option [value]="option" *ngFor="let option of schedules">{{ option.name }}</mat-option>
       </mat-select>
     </mat-form-field>
+    <!-- Student List -->
+    <div *ngIf="currentViewStudents && currentViewStudents.length" fxLayout="row" fxLayoutAlign="center" style="background-color: white; margin: 0 10px  ; width:100%" >
+      <div *ngFor="let student of currentViewStudents" fxLayout="column" style="width:100%">
+          <p style="text-align: center;"> {{student.firstName}} {{student.lastName}}</p>
+        <mat-divider style="width:85%; margin: 0 auto 10px auto"></mat-divider>
+        <div fxLayout="row" fxLayoutAlign="start" style="width:100%;">
+          <div style="padding: 5px" fxFlex [style.border-left]="'3px solid' + service.color " *ngFor="let service of student.services">
+            {{service.name}}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div fxFlex>
     <app-schedular (onEventDataUpdate)="onEventDataUpdate($event)" (onStartDateChange)="onStartDateChange($event)" (onEndDateChange)="onEndDateChange($event)" [schedule]="selectedSchedule" class="full-sub-page"></app-schedular>

@@ -114,7 +114,16 @@ export class SchedularComponent implements OnInit, OnDestroy {
 
   public onStudentChange(args: any) {
     if (args.value) {
-      this.mapStudentServices(args);
+      this.mappedServices = this.studentsList
+      .find((s) => s._id === args.value)
+      ?.services?.map((service: any) => {
+        return {
+          serviceName: service.service.name, //company service cred here (horid naming)
+          serviceId: service.service._id, //company service cred here (horid naming)
+        };
+      });
+    this.isServiceDropdownEnabled = true;
+    this.serviceDropdown.dataBind();
     }
   }
 
@@ -123,7 +132,16 @@ export class SchedularComponent implements OnInit, OnDestroy {
       this.isServiceDropdownEnabled = false;
       this.serviceDropdown.dataBind();
     } else if (args.type === 'Editor' && args.data.Student) {
-      this.mapStudentServices(args);
+      this.mappedServices = this.studentsList
+      .find((s) => s._id === args.data.Student)
+      ?.services?.map((service: any) => {
+        return {
+          serviceName: service.service.name, //company service cred here (horid naming)
+          serviceId: service.service._id, //company service cred here (horid naming)
+        };
+      });
+    this.isServiceDropdownEnabled = true;
+    this.serviceDropdown.dataBind();
     }
   }
 
@@ -176,6 +194,7 @@ export class SchedularComponent implements OnInit, OnDestroy {
       };
     });
     this.schedule.calenderEvents = mappedData as ResponseCalendarEvents[];
+    this.onEventDataUpdate.emit(this.schedule.calenderEvents)
     if (this.schedule._id) {
       this.scheduleService
         .updateSchedule(this.schedule?._id, this.schedule as any)
@@ -214,19 +233,6 @@ export class SchedularComponent implements OnInit, OnDestroy {
     const endDate = currentViewDates[currentViewDates.length - 1];
     this.onStartDateChange.emit(startDate);
     this.onEndDateChange.emit(endDate);
-  }
-
-  private mapStudentServices(args: any) {
-    this.mappedServices = this.studentsList
-      .find((s) => s._id === args.data.Student)
-      ?.services?.map((service: any) => {
-        return {
-          serviceName: service.service.name, //company service cred here (horid naming)
-          serviceId: service.service._id, //company service cred here (horid naming)
-        };
-      });
-    this.isServiceDropdownEnabled = true;
-    this.serviceDropdown.dataBind();
   }
 
   ngOnDestroy(): void {

@@ -33,8 +33,6 @@ export class StudentFormComponent implements OnInit, OnDestroy {
     'name',
     'color',
     'minutesAssigned',
-    'minutesUsed',
-    'minutesLeft',
     'actions',
   ];
   public isEdit = false;
@@ -44,6 +42,7 @@ export class StudentFormComponent implements OnInit, OnDestroy {
   public studentServices: ResponseStudentService[];
   public tableStudentServices: StudentServiceTableMeta[];
   public enableEdit = false;
+  public notSaved = true;
   public selectedIndex = new FormControl(0);
   private unsubscribe = new Subject<void>();
 
@@ -183,7 +182,6 @@ export class StudentFormComponent implements OnInit, OnDestroy {
         gender: this.gender?.value,
         carTag: this.carTag?.value,
         schoolIssuedId: this.schoolIssuedId?.value,
-        services: [],
       };
       if (this.student && this.student.company && this.student.company._id) {
         student.company = this.student.company._id;
@@ -200,8 +198,8 @@ export class StudentFormComponent implements OnInit, OnDestroy {
                 console.log('Updated: ', s);
                 this.notificationService.success('Student saved successfully.');
                 this.studentService.refreshStudentsList();
-                this.studentForm.reset();
-                this.close();
+                this.selectedIndex.setValue(1)
+                this.notSaved = false;
               }
             });
         }
@@ -213,8 +211,8 @@ export class StudentFormComponent implements OnInit, OnDestroy {
             if (s) {
               this.notificationService.success('Student saved successfully.');
               this.studentService.refreshStudentsList();
-              this.studentForm.reset();
-              this.close();
+              this.selectedIndex.setValue(1)
+              this.notSaved = false;
             }
           });
       }

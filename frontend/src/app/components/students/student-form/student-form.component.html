@@ -89,7 +89,7 @@
   </form>
 
   </mat-tab>
-  <mat-tab [disabled]="!companyServices || !companyServices.length" label="Services"> 
+  <mat-tab [disabled]="(!companyServices || !companyServices.length) || studentForm.invalid && notSaved" label="Services"> 
     <form style="margin: 24px;">
       <div fxLayout="column" fxLayoutAlign="center center">
           <h1 class="primary-text mb-1" style="margin-top: 0;" >{{isEdit ? 'Edit' : 'Add'}} student</h1>
@@ -97,7 +97,7 @@
           <table *ngIf="companyServices && companyServices.length" mat-table [dataSource]="tableStudentServices" class="mat-elevation-z8">
             <!-- Name Column -->
             <ng-container matColumnDef="assigend">
-              <th mat-header-cell *matHeaderCellDef> Asgd </th>
+              <th mat-header-cell *matHeaderCellDef> Assigned </th>
               <td mat-cell *matCellDef="let element">
                 <div fxLayout="row" >
                    <mat-checkbox [disabled]="!enableEdit" [checked]="element.assigned" (change)="onCheckChange($event, element)" color="primary"></mat-checkbox>
@@ -125,7 +125,7 @@
             <!-- Actions Column -->
             <ng-container matColumnDef="minutesAssigned">
                 <th mat-header-cell *matHeaderCellDef> 
-                  Min Asgd
+                 Weekly Minutes
                 </th>
                 <td mat-cell *matCellDef="let element; index as i">
                   <div fxLayout="column" fxLayoutAlign="center start"> 
@@ -137,24 +137,6 @@
                   </div>
                 </td>
             </ng-container>
-            <ng-container matColumnDef="minutesUsed">
-              <th mat-header-cell *matHeaderCellDef> 
-                Min Used
-              </th>
-              <td mat-cell *matCellDef="let element">
-                  {{element.minutesUsed}}
-              </td>
-          </ng-container>
-          <ng-container matColumnDef="minutesLeft">
-            <th mat-header-cell *matHeaderCellDef> 
-              Min Left
-            </th>
-            <td mat-cell *matCellDef="let element">
-              <div fxLayout="column" fxLayoutAlign="center start"> 
-               {{element.minutesLeft}}
-              </div>
-            </td>
-        </ng-container>
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef> 
             <button mat-icon-button color="primary" (click)="enableEdit = !enableEdit"><mat-icon>edit</mat-icon></button>

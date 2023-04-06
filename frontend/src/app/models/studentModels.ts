@@ -29,5 +29,5 @@ export interface RequestStudent {
     gender: string;
     carTag: number;
     schoolIssuedId: string;
-    services: RequestStudentService[]
+    services?: RequestStudentService[]
 }

@@ -19,15 +19,17 @@ export class AppComponent {
   constructor(
     private authService: AuthService,
     private companyService: CompanyService,
-    private companyServiceService: CompanyServiceService
+    private companyServiceService: CompanyServiceService,
+    private studentsService: StudentService
   ) {}
 
   ngOnInit(): void {
-    this.companyServiceService.getServices()
-    .pipe(takeUntil(this.unsubscribe))
-    .subscribe(companyServices => {
-      this.companyServiceService.companyServices$.next(companyServices);
-    });
+    this.companyServiceService
+      .getServices()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((companyServices) => {
+        this.companyServiceService.companyServices$.next(companyServices);
+      });
     this.authService.user$
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((user) => {
@@ -41,6 +43,14 @@ export class AppComponent {
                 if (company) {
                   this.companyService.company$.next(company);
                   this.company = company;
+                }
+              });
+            this.studentsService
+              .getStudents(this.user.company._id)
+              .pipe(takeUntil(this.unsubscribe))
+              .subscribe((students) => {
+                if (students) {
+                  this.studentsService.students$.next(students);
                 }
               });
           }

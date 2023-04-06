@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 import { RequestStudent, Student } from '../models/studentModels';
 import { EndpointService } from './endpoint.service';
 import { SessionStorageService } from './session-storage.service';
-import { StudentServiceTableMeta } from '../models/studentServiceModels';
+import { StudentServiceMinUpdate, StudentServiceTableMeta } from '../models/studentServiceModels';
 
 @Injectable({
   providedIn: 'root',
@@ -65,6 +65,10 @@ export class StudentService implements OnDestroy {
       `${this.baseEndpoint}/${studentId}/services`,
       data
     );
+  }
+
+  public updateStudentMinutes(data: any[]): Observable<any[]> {
+    return this.http.put<any[]>(`${this.baseEndpoint}/minuteUpdate`,data);
   }
 
   ngOnDestroy(): void {

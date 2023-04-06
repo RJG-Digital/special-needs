@@ -24,3 +24,11 @@ export interface StudentServiceTableMeta {
   minutesUsed: number;
   name: string;
 }
+
+export interface StudentServiceMinUpdate {
+  companyservice: string;
+  minutesAssigned: number;
+  minutesLeft: number;
+  minutesUsed: number;
+  student: string;
+}

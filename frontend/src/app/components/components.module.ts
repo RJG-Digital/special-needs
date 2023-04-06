@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { LoginFormComponent } from './auth/login-form/login-form.component';
 import { MaterialModule } from '../material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ResetPasswordFormComponent } from './auth/reset-password-form/reset-password-form.component';
 import { RegisterFormComponent } from './auth/register-form/register-form.component';
 import { SideNavComponent } from './nav/side-nav/side-nav.component';

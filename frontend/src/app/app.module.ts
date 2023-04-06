@@ -11,7 +11,6 @@ import { UserModule } from './pages/user/user.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService, DragAndDropService, ResizeService } from '@syncfusion/ej2-angular-schedule';
 import { UsersModule } from './pages/users/users.module';
-import { CalendarModule } from './components/calendar/calendar.module';
 import {DropDownListModule} from '@syncfusion/ej2-angular-dropdowns';
 import {DatePickerModule} from '@syncfusion/ej2-angular-calendars'
 import { StudentsModule } from './pages/students/students.module';
@@ -36,7 +35,6 @@ import { ServicesModule } from './pages/services/services.module';
     RecurrenceEditorModule,
     DropDownListModule,
     DatePickerModule,
-    CalendarModule,
     SchedularModule,
     StudentsModule,
     ServicesModule,

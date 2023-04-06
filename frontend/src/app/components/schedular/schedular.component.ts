@@ -35,6 +35,8 @@ export class SchedularComponent implements OnInit, OnDestroy {
   @Input() studentsList: Student[] = [];
   @Input() schedule: ResponseUserSchedule;
 
+  @Output() onStartDateChange = new EventEmitter<Date>();
+  @Output() onEndDateChange = new EventEmitter<Date>();
   @Output() onScheduleUpdate = new EventEmitter<ResponseUserSchedule>();
 
   public repeatEndOptionFields: Object = { text: 'text', value: 'value' };
@@ -58,15 +60,15 @@ export class SchedularComponent implements OnInit, OnDestroy {
   constructor(
     private studentService: StudentService,
     private scheduleService: ScheduleService,
-    private companyServiceService: CompanyServiceService,
+    private companyServiceService: CompanyServiceService
   ) {}
 
   ngOnInit(): void {
     this.companyServiceService.companyServices$
-    .pipe(takeUntil(this.unsubscribe))
-    .subscribe(companyServices => {
-      this.companyServices = companyServices;
-    })
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((companyServices) => {
+        this.companyServices = companyServices;
+      });
     this.studentService.refreshStudentsList();
     this.studentService.students$
       .pipe(takeUntil(this.unsubscribe))
@@ -80,11 +82,11 @@ export class SchedularComponent implements OnInit, OnDestroy {
                 studentId: s._id,
               };
             });
-            
           }
         }
       });
     if (this.schedule && this.schedule.calenderEvents) {
+      // Mapping events to calender
       this.eventSettings = {
         dataSource: this.schedule.calenderEvents
           ? this.schedule.calenderEvents.map((c) => {
@@ -112,39 +114,18 @@ export class SchedularComponent implements OnInit, OnDestroy {
     }
   }
 
-  public dateParser(date: any) {
-    return new Date(date);
-  }
-
   public onStudentChange(args: any) {
     if (args.value) {
-      this.mappedServices = this.studentsList
-        .find((s) => s._id === args.value)
-        ?.services?.map((service: any) => {
-          return {
-            serviceName: service.service.name, //company service cred here (horid naming)
-            serviceId: service.service._id, //company service cred here (horid naming)
-          };
-        });
-      this.isServiceDropdownEnabled = true;
-      this.serviceDropdown.dataBind();
+      this.mapStudentServices(args);
     }
   }
+
   public onPopupOpen(args: any) {
     if (args.type === 'Editor' && !args.data.Student) {
       this.isServiceDropdownEnabled = false;
       this.serviceDropdown.dataBind();
-    } else if(args.type === 'Editor' && args.data.Student) {
-      this.mappedServices = this.studentsList
-        .find((s) => s._id === args.data.Student)
-        ?.services?.map((service: any) => {
-          return {
-            serviceName: service.service.name, //company service cred here (horid naming)
-            serviceId: service.service._id, //company service cred here (horid naming)
-          };
-        });
-        this.isServiceDropdownEnabled = true;
-        this.serviceDropdown.dataBind();
+    } else if (args.type === 'Editor' && args.data.Student) {
+      this.mapStudentServices(args);
     }
   }
 
@@ -165,10 +146,21 @@ export class SchedularComponent implements OnInit, OnDestroy {
     }
   }
 
+  public onCreated(args: any) {
+    this.updateViewDates();
+  }
+
   public onActionComplete(args: any) {
     args.data = args.data?.map((d: any) => {
       return { ...d, RecurrenceRule: this.recurrenceRule };
     });
+    // Get dates to filter students
+    if (
+      args.requestType === 'viewNavigate' ||
+      args.requestType === 'dateNavigate'
+    ) {
+      this.updateViewDates();
+    }
   }
 
   public onRecurrenceEditorChange(event: any, data: any) {
@@ -202,22 +194,43 @@ export class SchedularComponent implements OnInit, OnDestroy {
 
   public onEventRendered(args: any) {
     setTimeout(() => {
-      
       if (this.studentsList) {
-        const studentId = args.data.Student;
         const companyServiceId = args.data.Service;
-        const foundService = this.companyServices.find(cs => cs._id === companyServiceId);
-          if (foundService) {
-            const color = foundService.color;
-            if (this.scheduleObj.currentView === 'Agenda') {
-              (args.element.firstChild as HTMLElement).style.borderLeftColor =
-                color;
-            } else {
-              args.element.style.backgroundColor = color;
-            }
+        const foundService = this.companyServices.find(
+          (cs) => cs._id === companyServiceId
+        );
+        if (foundService) {
+          const color = foundService.color;
+          if (this.scheduleObj.currentView === 'Agenda') {
+            (args.element.firstChild as HTMLElement).style.borderLeftColor =
+              color;
+          } else {
+            args.element.style.backgroundColor = color;
           }
         }
+      }
     }, 100);
+  }
+
+  private updateViewDates() {
+    const currentViewDates = this.scheduleObj.getCurrentViewDates();
+    const startDate = currentViewDates[0];
+    const endDate = currentViewDates[currentViewDates.length - 1];
+    this.onStartDateChange.emit(startDate);
+    this.onEndDateChange.emit(endDate);
+  }
+
+  private mapStudentServices(args: any) {
+    this.mappedServices = this.studentsList
+      .find((s) => s._id === args.data.Student)
+      ?.services?.map((service: any) => {
+        return {
+          serviceName: service.service.name, //company service cred here (horid naming)
+          serviceId: service.service._id, //company service cred here (horid naming)
+        };
+      });
+    this.isServiceDropdownEnabled = true;
+    this.serviceDropdown.dataBind();
   }
 
   ngOnDestroy(): void {

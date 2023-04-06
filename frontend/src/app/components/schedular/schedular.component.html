@@ -2,6 +2,7 @@
   <ejs-schedule
     #schedularObj
     [editorTemplate]="eventEditorTemplate"
+    (created)="onCreated($event)"
     (eventRendered)="onEventRendered($event)"
     (actionBegin)="onActionBegin($event)"
     (actionComplete)="onActionComplete($event)"

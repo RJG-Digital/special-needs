@@ -10,7 +10,6 @@ import {
 import { DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
 import {
   EventSettingsModel,
-  RecurrenceEditor,
   ScheduleComponent,
   View,
 } from '@syncfusion/ej2-angular-schedule';
@@ -37,7 +36,7 @@ export class SchedularComponent implements OnInit, OnDestroy {
 
   @Output() onStartDateChange = new EventEmitter<Date>();
   @Output() onEndDateChange = new EventEmitter<Date>();
-  @Output() onScheduleUpdate = new EventEmitter<ResponseUserSchedule>();
+  @Output() onEventDataUpdate = new EventEmitter<ResponseCalendarEvents[]>();
 
   public repeatEndOptionFields: Object = { text: 'text', value: 'value' };
   public repeatOptionFields: Object = { text: 'text', value: 'value' };
@@ -55,7 +54,6 @@ export class SchedularComponent implements OnInit, OnDestroy {
   @ViewChild('eventTemplate') public eventTemplate: any;
   @ViewChild('serviceDropdown') public serviceDropdown: DropDownListComponent;
   @ViewChild('studentDropdown') public studentDropdown: DropDownListComponent;
-  @ViewChild('recurrenceEditor') public recurrenceEditor: RecurrenceEditor;
 
   constructor(
     private studentService: StudentService,
@@ -182,9 +180,7 @@ export class SchedularComponent implements OnInit, OnDestroy {
       this.scheduleService
         .updateSchedule(this.schedule?._id, this.schedule as any)
         .pipe(take(1))
-        .subscribe((s) => {
-          console.log(s);
-        });
+        .subscribe();
     }
   }
 

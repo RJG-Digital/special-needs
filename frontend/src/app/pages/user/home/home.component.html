@@ -8,7 +8,7 @@
     </mat-form-field>
   </div>
   <div fxFlex>
-    <app-schedular (onScheduleUpdate)="onScheduleUpdate($event)" [schedule]="selectedSchedule" class="full-sub-page"></app-schedular>
+    <app-schedular (onEventDataUpdate)="onEventDataUpdate($event)" (onStartDateChange)="onStartDateChange($event)" (onEndDateChange)="onEndDateChange($event)" [schedule]="selectedSchedule" class="full-sub-page"></app-schedular>
   </div>
 </div>
 

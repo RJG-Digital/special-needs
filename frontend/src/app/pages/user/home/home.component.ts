@@ -4,6 +4,7 @@ import { Subject, take, takeUntil } from 'rxjs';
 import { User } from 'src/app/models/userModels';
 import {
   RequestUserSchedule,
+  ResponseCalendarEvents,
   ResponseUserSchedule,
 } from 'src/app/models/userScheduleModels';
 import { AuthService } from 'src/app/services/auth.service';
@@ -19,6 +20,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   public schedules: ResponseUserSchedule[];
   public me: User;
   public selectedSchedule: ResponseUserSchedule;
+  public startDate: Date;
+  public endDate: Date;
 
   private unsubscribe = new Subject<void>();
 
@@ -37,7 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((s) => {
         this.schedules = s;
-        if(this.schedules && this.schedules.length) {
+        if (this.schedules && this.schedules.length) {
           this.selectedSchedule = this.schedules[0];
         }
       });
@@ -61,20 +64,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onScheduleUpdate(event: any) {
-    console.log('Got the emit of the schedule: ', event)
-    if(event._id) {
-      const scheduleUpdate : RequestUserSchedule = {
-        ...event,
-        user: event.user._id
-      }
-      this.scheduleService.updateSchedule(event._id, scheduleUpdate)
-      .pipe(take(1))
-      .subscribe(s => {
-        console.log(s);
-      })
-    }
+  public onEventDataUpdate(events: ResponseCalendarEvents[]) {
+    this.selectedSchedule.calenderEvents = events;
+  }
 
+  public onStartDateChange(startDate: Date) {
+    this.startDate = startDate;
+  }
+
+  public onEndDateChange(endDate: Date) {
+    this.endDate = endDate;
   }
 
   ngOnDestroy(): void {

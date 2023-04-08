@@ -186,7 +186,7 @@ export class SchedularComponent implements OnInit, OnDestroy {
   }
 
   private updateDB() {
-    const mappedData = this.scheduleObj.getEvents().map((e) => {
+    const mappedData = this.scheduleObj.getCurrentViewEvents().map((e) => {
       return {
         ...e,
         Service: e['Service'] && e['Service'].length ? e['Service'] : null,

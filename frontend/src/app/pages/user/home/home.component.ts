@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { View } from '@syncfusion/ej2-angular-schedule';
-import { Subject, first, take, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { Student } from 'src/app/models/studentModels';
 import { User } from 'src/app/models/userModels';
 import {
@@ -10,8 +10,8 @@ import {
 } from 'src/app/models/userScheduleModels';
 import { AuthService } from 'src/app/services/auth.service';
 import { ScheduleService } from 'src/app/services/schedule.service';
+import { SchedulerService } from 'src/app/services/scheduler.service';
 import { StudentService } from 'src/app/services/student.service';
-import { StudentsRoutingModule } from '../../students/students-routing.module';
 
 @Component({
   selector: 'app-home',
@@ -26,15 +26,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   public startDate: Date;
   public endDate: Date;
   public studentList: Student[];
-  public currentViewStudents: any[];
+  public currentViewStudents: any[] = [];
 
   private unsubscribe = new Subject<void>();
 
   constructor(
     private authService: AuthService,
     private scheduleService: ScheduleService,
-    private studentService: StudentService, 
-    private cd: ChangeDetectorRef
+    private studentService: StudentService,
+    private schedulerService: SchedulerService
   ) {}
 
   ngOnInit(): void {
@@ -81,94 +81,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public onEventDataUpdate(events: ResponseCalendarEvents[]) {
     this.selectedSchedule.calenderEvents = events;
-    // filter events that are only in the current calendar view
-    let mappedEvents = this.selectedSchedule.calenderEvents.filter((event) => {
-      let eventStartDate = new Date(event.StartTime);
-      let eventEndDate = new Date(event.EndTime);
-      let startDate = new Date(this.startDate);
-      let endDate = new Date(this.endDate);
-      return eventStartDate >= startDate && eventEndDate <= endDate;
-    });
-    if (mappedEvents) {
-      const timeData = mappedEvents.map((e) => {
-        const diffInMs = Math.abs(e.EndTime.getTime() - e.StartTime.getTime());
-        const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
-        return {
-          service: e.Service,
-          startTime: e.StartTime,
-          endTime: e.EndTime,
-          minutesUsed: diffInMinutes,
-          student: e.Student,
-          subject: e.Subject,
-        };
-      });
-      console.log('TimeData: ', timeData);
-
-      if (timeData && timeData.length) {
-        timeData.forEach((event) => {
-          const student = this.studentList.find((s) => s._id === event.student);
-          if (student) {
-            const index = student.services.findIndex(
-              (service) => service.service._id.toString() === event.service
-            );
-            if (index > -1) {
-              if (
-                student.services[index].minutesLeft !==
-                student.services[index].minutesAssigned
-              ) {
-                student.services[index].minutesLeft =
-                  student.services[index].minutesAssigned;
-                student.services[index].minutesUsed = 0;
-              }
-            }
-          }
-        });
-
-        timeData.forEach((event) => {
-          const student = this.studentList.find((s) => s._id === event.student);
-          if (student) {
-            const index = student.services.findIndex(
-              (service) => service.service._id.toString() === event.service
-            );
-            if (index > -1) {
-              student.services[index].minutesLeft =
-                student.services[index].minutesLeft - event.minutesUsed;
-              student.services[index].minutesUsed =
-                student.services[index].minutesUsed + event.minutesUsed;
-            }
-          }
-        });
-      }
-      console.log('Students List: ', this.studentList);
-      const currentStudents = this.studentList.filter((s) => {
-        return timeData.some((td) => s._id === td.student);
-      });
-      console.log('CurrentStudents: ', currentStudents);
-      if (currentStudents && currentStudents.length) {
-        this.currentViewStudents = currentStudents.map((student) => {
-          return {
-            firstName: student.firstName,
-            lastName: student.lastName,
-            services: student.services
-              .filter((s) => s.minutesUsed > 0)
-              .map((s) => {
-                return {
-                  minutesAssigned: s.minutesAssigned,
-                  minutesLeft: s.minutesLeft,
-                  minutesUsed: s.minutesUsed,
-                  name: s.service.name,
-                  color: s.service.color,
-                  _id: s.service._id,
-                };
-              }),
-            profileImage: student.profileImage,
-            StudentId: student._id,
-          };
-        });
-        console.log('CurentView Students: ', this.currentViewStudents);
-        this.cd.markForCheck();
-      }
-    }
+    this.currentViewStudents =  this.schedulerService.getUpdatedEvents(events, this.startDate, this.endDate, this.studentList)
   }
 
   public onStartDateChange(startDate: Date) {
@@ -184,3 +97,100 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 }
+
+// public onEventDataUpdate(events: ResponseCalendarEvents[]) {
+//   this.selectedSchedule.calenderEvents = events;
+//   // filter events that are only in the current calendar view
+//   let mappedEvents = this.selectedSchedule.calenderEvents.filter((event) => {
+//     let eventStartDate = new Date(event.StartTime).getDate();
+//     let eventEndDate = new Date(event.EndTime).getDate();
+//     let startDate = new Date(this.startDate).getDate();
+//     let endDate = new Date(this.endDate).getDate();
+//     return eventStartDate >= startDate && eventEndDate <= endDate;
+//   });
+//   if (mappedEvents) {
+//     const timeData = mappedEvents.map((e) => {
+//       const diffInMs = Math.abs(e.EndTime.getTime() - e.StartTime.getTime());
+//       const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+//       return {
+//         service: e.Service,
+//         startTime: e.StartTime,
+//         endTime: e.EndTime,
+//         minutesUsed: diffInMinutes,
+//         student: e.Student,
+//         subject: e.Subject,
+//       };
+//     });
+
+//     if (timeData && timeData.length) {
+//       timeData.forEach((event) => {
+//         const student = this.studentList.find((s) => s._id === event.student);
+//         if (student) {
+//           const index = student.services.findIndex(
+//             (service) => service.service._id.toString() === event.service
+//           );
+//           if (index > -1) {
+//             if (
+//               student.services[index].minutesLeft !==
+//               student.services[index].minutesAssigned
+//             ) {
+//               student.services[index].minutesLeft =
+//                 student.services[index].minutesAssigned;
+//               student.services[index].minutesUsed = 0;
+//             }
+//           }
+//         }
+//       });
+
+//       timeData.forEach((event) => {
+//         const student = this.studentList.find((s) => s._id === event.student);
+//         if (student) {
+//           const index = student.services.findIndex(
+//             (service) => service.service._id.toString() === event.service
+//           );
+//           if (index > -1) {
+//             student.services[index].minutesLeft =
+//               student.services[index].minutesLeft - event.minutesUsed;
+//             student.services[index].minutesUsed =
+//               student.services[index].minutesUsed + event.minutesUsed;
+//           }
+//         }
+//       });
+//     }
+
+//     const currentStudents = this.studentList.filter((s) => {
+//       return timeData.some((td) => s._id === td.student);
+//     });
+//     if (currentStudents && currentStudents.length) {
+//       this.currentViewStudents = currentStudents.map((student) => {
+//         let services = student.services.filter((s) => s.minutesUsed > 0);
+//         services = services.filter((s) => {
+//           return timeData.some((td) => s.service._id === td.service);
+//         });
+//         return {
+//           firstName: student.firstName,
+//           lastName: student.lastName,
+//           services: services
+//             .filter((s) => s.minutesUsed > 0)
+//             .map((s) => {
+//               return {
+//                 minutesAssigned: s.minutesAssigned,
+//                 minutesLeft: s.minutesLeft,
+//                 minutesUsed: s.minutesUsed,
+//                 name: s.service.name,
+//                 color: s.service.color,
+//                 _id: s.service._id,
+//               };
+//             }),
+//           profileImage: student.profileImage,
+//           StudentId: student._id,
+//         };
+//       });
+//       if (!this.currentViewStudents.length) {
+//         this.currentViewStudents = [];
+//       }
+//     } else {
+//       this.currentViewStudents = [];
+//     }
+//   }
+// }

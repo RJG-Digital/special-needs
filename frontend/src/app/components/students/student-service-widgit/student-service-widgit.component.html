@@ -1,0 +1,36 @@
+<div fxLayout="row" style="margin-bottom: 1rem;" fxLayoutAlign="end center">
+  <button mat-raised-button color="primary" (click)="toggleAccordion()">{{isExpanded ? 'Collapse All' : 'Expand All'}}</button>
+</div>
+<mat-accordion class="example-headers-align" multi>
+  <mat-expansion-panel [expanded]="isExpanded" *ngFor="let student of currentViewStudents">
+    <mat-expansion-panel-header >
+      <mat-panel-title>
+      <span>{{student.firstName}}</span> 
+      </mat-panel-title>
+      <mat-panel-description>
+        <mat-chip color="warn" selected>{{student.services.length}}</mat-chip>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+<table style="font-size:14px" mat-table [dataSource]="student.services" class="mat-elevation-z8">
+    <!-- Service Column -->
+    <ng-container matColumnDef="service">
+      <th mat-header-cell *matHeaderCellDef> Service </th>
+      <td mat-cell *matCellDef="let element" [style.border-left]="'4px solid' + element.color" >{{element.name}}</td>
+    </ng-container>
+    <!-- Min Used Column -->
+    <ng-container matColumnDef="minUsed">
+        <th mat-header-cell *matHeaderCellDef> Min Used </th>
+        <td mat-cell *matCellDef="let element"> {{element.minutesUsed}} </td>
+    </ng-container>
+    <!-- Min Left Column -->
+    <ng-container matColumnDef="minLeft" >
+      <th mat-header-cell *matHeaderCellDef> Min Left </th>
+      <td mat-cell *matCellDef="let element" [ngStyle]="{'color': element.minutesLeft > 0 ? 'red': 'green'}"> {{element.minutesLeft}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</mat-expansion-panel>
+</mat-accordion>

@@ -1,36 +1,47 @@
 <div *ngIf="schedules" class="full-width" fxLayout="row">
   <div fxLayout="column" fxFlex="15">
-    <mat-form-field style="margin: 24px;" appearance="outline">
+    <mat-form-field style="margin: 24px 1rem 1rem 1rem" appearance="outline">
       <mat-label>Schedules</mat-label>
       <mat-select [(value)]="selectedSchedule">
-        <mat-option [value]="option" *ngFor="let option of schedules">{{ option.name }}</mat-option>
+        <mat-option [value]="option" *ngFor="let option of schedules">{{
+          option.name
+        }}</mat-option>
       </mat-select>
     </mat-form-field>
     <!-- Student List -->
-    <div *ngIf="currentViewStudents && currentViewStudents.length > 0" fxLayout="column" fxLayoutAlign="center" style=" margin: 0 10px  ; width:100%" >
-      <div *ngFor="let student of currentViewStudents" fxLayout="column" style="width:100%; background-color: white; margin-bottom:1rem;">
-          <p style="text-align: center;"> {{student.firstName}} {{student.lastName}}</p>
-        <mat-divider style="width:85%; margin: 0 auto 10px auto"></mat-divider>
-        <div fxLayout="row" fxLayoutAlign="start" style="width:100%; margin-bottom: 1rem">
-          <div style="padding: 5px; text-align:center; color:white; opacity:.8; margin: 0 2px; border-radius: 5px" fxFlex [style.background-color]="service.color" *ngFor="let service of student.services">
-            <p>{{service.name}}</p>
-            <mat-divider style="width:85%; margin: 0 auto 10px auto"></mat-divider>
-            <p style="font-size: 12px;">Min Assigned: {{service.minutesAssigned}}</p>
-            <p style="font-size: 12px;">Min Used: {{service.minutesUsed}}</p>
-            <p style="font-size: 12px;">Min Left: {{service.minutesLeft}}</p>
-          </div>
-        </div>
+    <div
+      *ngIf="currentViewStudents && currentViewStudents.length > 0"
+      fxLayout="column"
+      fxLayoutAlign="center"
+      style="margin: 0 10px; width: 100%"
+    >
+      <div fxLayout="column">
+        <app-student-service-widgit
+          [currentViewStudents]="currentViewStudents"
+        ></app-student-service-widgit>
       </div>
     </div>
-    <div *ngIf="currentViewStudents && currentViewStudents.length === 0">Nope</div>
   </div>
   <div fxFlex>
-    <app-schedular (onEventDataUpdate)="onEventDataUpdate($event)" (onStartDateChange)="onStartDateChange($event)" (onEndDateChange)="onEndDateChange($event)" [schedule]="selectedSchedule" class="full-sub-page"></app-schedular>
+    <app-schedular
+      (onEventDataUpdate)="onEventDataUpdate($event)"
+      (onStartDateChange)="onStartDateChange($event)"
+      (onEndDateChange)="onEndDateChange($event)"
+      [schedule]="selectedSchedule"
+      class="full-sub-page"
+    ></app-schedular>
   </div>
 </div>
 
-<div *ngIf="!schedules || !schedules.length" class="full-width" fxLayout="row" fxLayoutAlign="center center">
-  <div  fxLayout="row" fxLayoutAlign="center center" fxFlex>
-    <button (click)="makeSchedule()" mat-raised-button color="primary">Make A Schedule</button>
+<div
+  *ngIf="!schedules || !schedules.length"
+  class="full-width"
+  fxLayout="row"
+  fxLayoutAlign="center center"
+>
+  <div fxLayout="row" fxLayoutAlign="center center" fxFlex>
+    <button (click)="makeSchedule()" mat-raised-button color="primary">
+      Make A Schedule
+    </button>
   </div>
 </div>

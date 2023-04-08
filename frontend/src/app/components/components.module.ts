@@ -19,6 +19,7 @@ import { UserFormComponent } from './users/user-form/user-form.component';
 import { DrawerComponent } from './drawer/drawer.component';
 import { ServiceTableComponent } from './services/service-table/service-table.component';
 import { ServiceFormComponent } from './services/service-form/service-form.component';
+import { StudentServiceWidgitComponent } from './students/student-service-widgit/student-service-widgit.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ServiceFormComponent } from './services/service-form/service-form.compo
     DrawerComponent,
     ServiceTableComponent,
     ServiceFormComponent,
+    StudentServiceWidgitComponent,
   ],
   imports: [
     CommonModule,
@@ -60,6 +62,7 @@ import { ServiceFormComponent } from './services/service-form/service-form.compo
     DrawerComponent,   
     ServiceTableComponent,
     ServiceFormComponent,
+    StudentServiceWidgitComponent,
   ]
 })
 export class ComponentsModule { }

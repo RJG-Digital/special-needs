@@ -1,0 +1,29 @@
+
+
+<div class="full-width" fxLayout="row">
+  <div *ngIf="student" fxLayout="column" class="full-sub-page" fxFlex="15">
+    <div
+    *ngIf="currentViewStudents && currentViewStudents.length > 0"
+    fxLayout="column"
+    fxLayoutAlign="center"
+    style="margin: 0 10px; width: 100%"
+  >
+    <div fxLayout="column">
+      <app-student-service-widgit
+        [currentViewStudents]="currentViewStudents"
+      ></app-student-service-widgit>
+    </div>
+  </div>
+  </div>
+  <div fxFlex *ngIf="studentSchedule">
+    <app-schedular
+    (onEventDataUpdate)="onEventDataUpdate($event)"
+    (onStartDateChange)="onStartDateChange($event)"
+    (onEndDateChange)="onEndDateChange($event)"
+    [schedule]="studentSchedule"
+    class="full-sub-page"
+    [style]="{margin: '0 24px 24px 24px'}"
+    [readonly]="true"
+  ></app-schedular>
+  </div>
+</div>

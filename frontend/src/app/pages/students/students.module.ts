@@ -6,10 +6,12 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { StudentsRoutingModule } from './students-routing.module';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { DetailsComponent } from './details/details.component';
+import { SchedularModule } from 'src/app/components/schedular/schedular.module';
 
 @NgModule({
-  declarations: [StudentsComponent, OverviewComponent],
-  imports: [CommonModule, MaterialModule, FlexLayoutModule, StudentsRoutingModule, ComponentsModule],
+  declarations: [StudentsComponent, OverviewComponent, DetailsComponent],
+  imports: [CommonModule, MaterialModule, FlexLayoutModule, StudentsRoutingModule, ComponentsModule, SchedularModule],
   exports: [StudentsComponent, OverviewComponent],
 })
 export class StudentsModule {}

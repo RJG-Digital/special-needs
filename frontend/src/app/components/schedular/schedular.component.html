@@ -11,8 +11,9 @@
     [eventSettings]="eventSettings"
     [timeScale]="{ enable: true, interval: 15, slotCount: 1 }"
     [workHours]="{ start: '07:00', end: '15:30' }"
-    style="margin: 24px"
+    [ngStyle]="style"
     height="100%"
+    [readonly]="readonly"
     [currentView]="viewType"
   >
     <ng-template #eventEditorTemplate let-data>

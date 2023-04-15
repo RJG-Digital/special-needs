@@ -24,6 +24,10 @@ export class ScheduleService {
     return this.http.get<ResponseUserSchedule>(`${this.baseEndpoint}/${user}`);
   }
 
+  public getStudentSchedule(studentid: string): Observable<ResponseUserSchedule> {
+    return this.http.get<ResponseUserSchedule>(`${this.baseEndpoint}/student/${studentid}`);
+  }
+
   public getSchedules(): Observable<ResponseUserSchedule[]> {
     return this.http.get<ResponseUserSchedule[]>(`${this.baseEndpoint}`);
   }

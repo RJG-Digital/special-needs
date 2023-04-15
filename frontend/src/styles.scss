@@ -123,3 +123,7 @@ body { margin: 0 }
 .mat-expansion-panel-body {
     padding: 0 !important;
 }
+.active-link {
+    color: $primaryColor;
+    cursor: pointer;
+}

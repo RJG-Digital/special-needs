@@ -20,7 +20,13 @@ const getStudent = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const student = await Student.findById(id)
     .populate("company")
-    .populate("services");
+    .populate({
+      path: "services",
+      populate: {
+        path: "service",
+        model: "companyService",
+      },
+    });
   res.status(200).json(student ? student : null);
 });
 
@@ -105,8 +111,6 @@ const updateStudentServices = asyncHandler(async (req, res) => {
   let foundStudent = await Student.findById(_id);
   if (foundStudent) {
     const servicesToAssign = newServiceData.filter((s) => s.assigned);
-    console.log("Icoming services: ", servicesToAssign);
-    console.log("CurrentServices: ", foundStudent.services);
     if (servicesToAssign) {
       foundStudent.services = servicesToAssign.map((s) => {
         return {
@@ -116,7 +120,6 @@ const updateStudentServices = asyncHandler(async (req, res) => {
           minutesUsed: s.minutesUsed,
         };
       });
-      console.log(foundStudent);
       foundStudent = await Student.findByIdAndUpdate(_id, foundStudent);
       res.status(200).json(foundStudent);
     }

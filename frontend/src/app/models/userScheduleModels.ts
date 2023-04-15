@@ -2,7 +2,9 @@ import { User } from './userModels';
 
 export interface ResponseUserSchedule {
   _id?: string;
-  user: User;
+  user?: User;
+  student?: string,
+  isStudentSchedule?: boolean
   name: string;
   description: string;
   calenderEvents: ResponseCalendarEvents[];
@@ -10,7 +12,9 @@ export interface ResponseUserSchedule {
 
 export interface RequestUserSchedule {
   _id?: string;
-  user: string;
+  user?: string;
+  student?: string,
+  isStudentSchedule?: boolean
   name: string;
   description: string;
   calenderEvents: RequestCalendarEvents[];

@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { View } from '@syncfusion/ej2-angular-schedule';
 import { Subject, take, takeUntil } from 'rxjs';
+import { SchedularComponent } from 'src/app/components/schedular/schedular.component';
 import { Student } from 'src/app/models/studentModels';
 import { User } from 'src/app/models/userModels';
 import {
@@ -29,6 +30,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   public currentViewStudents: any[] = [];
 
   private unsubscribe = new Subject<void>();
+
+  @ViewChild('shceduler') scheduler: SchedularComponent;
 
   constructor(
     private authService: AuthService,
@@ -79,9 +82,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onEventDataUpdate(events: ResponseCalendarEvents[]) {
-    this.selectedSchedule.calenderEvents = events;
-    this.currentViewStudents =  this.schedulerService.getUpdatedEvents(events, this.startDate, this.endDate, this.studentList)
+  public onEventDataUpdate(events:{
+    recurringEvents: ResponseCalendarEvents[];
+    currentViewEvents: ResponseCalendarEvents[];
+  }) {
+    this.selectedSchedule.calenderEvents = events.recurringEvents;
+    
+    this.currentViewStudents = this.schedulerService.getUpdatedEvents(
+      events.currentViewEvents,
+      this.startDate,
+      this.endDate,
+      this.studentList
+    );
   }
 
   public onStartDateChange(startDate: Date) {

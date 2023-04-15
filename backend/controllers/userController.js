@@ -192,8 +192,6 @@ const updateUserInfo = asyncHandler(async (req, res) => {
   });
 });
 
-const updateUserImage = asyncHandler(async (req, res) => {});
-
 const generateToken = (userId) => {
   return jwt.sign({ userId }, process.env.JWT_SECRET, {
     expiresIn: "30d",

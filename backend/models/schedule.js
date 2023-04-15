@@ -7,6 +7,15 @@ const scheduleSchema = mongoose.Schema(
       ref: "user",
       default: null,
     },
+    // student: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "student",
+    //   default: null,
+    // },
+    // isStudentSchedule: {
+    //   type: Boolean,
+    //   default: false
+    // },
     name: {
       type: String,
     },
@@ -17,6 +26,11 @@ const scheduleSchema = mongoose.Schema(
       type: [calenderEventSchema],
       default: [],
     },
+    company: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "company",
+      default: null,
+    }
   },
   {
     timestamps: true,

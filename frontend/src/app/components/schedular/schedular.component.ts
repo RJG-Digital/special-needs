@@ -33,10 +33,15 @@ export class SchedularComponent implements OnInit, OnDestroy {
   @Input() viewType: View = 'WorkWeek';
   @Input() studentsList: Student[] = [];
   @Input() schedule: ResponseUserSchedule;
+  @Input() style: any;
+  @Input() readonly = false;
 
   @Output() onStartDateChange = new EventEmitter<Date>();
   @Output() onEndDateChange = new EventEmitter<Date>();
-  @Output() onEventDataUpdate = new EventEmitter<ResponseCalendarEvents[]>();
+  @Output() onEventDataUpdate = new EventEmitter<{
+    recurringEvents: ResponseCalendarEvents[];
+    currentViewEvents: ResponseCalendarEvents[];
+  }>();
 
   public repeatEndOptionFields: Object = { text: 'text', value: 'value' };
   public repeatOptionFields: Object = { text: 'text', value: 'value' };
@@ -84,9 +89,10 @@ export class SchedularComponent implements OnInit, OnDestroy {
         }
       });
     if (this.schedule && this.schedule.calenderEvents) {
+      console.log('Right here', this.schedule.calenderEvents);
       // Mapping events to calender
       this.eventSettings = {
-        dataSource: this.schedule.calenderEvents
+        dataSource: this.schedule.calenderEvents.length
           ? this.schedule.calenderEvents.map((c) => {
               return {
                 Description: c.Description,
@@ -115,15 +121,15 @@ export class SchedularComponent implements OnInit, OnDestroy {
   public onStudentChange(args: any) {
     if (args.value) {
       this.mappedServices = this.studentsList
-      .find((s) => s._id === args.value)
-      ?.services?.map((service: any) => {
-        return {
-          serviceName: service.service.name, //company service cred here (horid naming)
-          serviceId: service.service._id, //company service cred here (horid naming)
-        };
-      });
-    this.isServiceDropdownEnabled = true;
-    this.serviceDropdown.dataBind();
+        .find((s) => s._id === args.value)
+        ?.services?.map((service: any) => {
+          return {
+            serviceName: service.service.name, //company service cred here (horid naming)
+            serviceId: service.service._id, //company service cred here (horid naming)
+          };
+        });
+      this.isServiceDropdownEnabled = true;
+      this.serviceDropdown.dataBind();
     }
   }
 
@@ -133,15 +139,15 @@ export class SchedularComponent implements OnInit, OnDestroy {
       this.serviceDropdown.dataBind();
     } else if (args.type === 'Editor' && args.data.Student) {
       this.mappedServices = this.studentsList
-      .find((s) => s._id === args.data.Student)
-      ?.services?.map((service: any) => {
-        return {
-          serviceName: service.service.name, //company service cred here (horid naming)
-          serviceId: service.service._id, //company service cred here (horid naming)
-        };
-      });
-    this.isServiceDropdownEnabled = true;
-    this.serviceDropdown.dataBind();
+        .find((s) => s._id === args.data.Student)
+        ?.services?.map((service: any) => {
+          return {
+            serviceName: service.service.name, //company service cred here (horid naming)
+            serviceId: service.service._id, //company service cred here (horid naming)
+          };
+        });
+      this.isServiceDropdownEnabled = true;
+      this.serviceDropdown.dataBind();
     }
   }
 
@@ -186,15 +192,30 @@ export class SchedularComponent implements OnInit, OnDestroy {
   }
 
   private updateDB() {
-    const mappedData = this.scheduleObj.getCurrentViewEvents().map((e) => {
+    const mappedData = this.scheduleObj.getEvents().map((e) => {
       return {
         ...e,
         Service: e['Service'] && e['Service'].length ? e['Service'] : null,
         Student: e['Student'] && e['Student'].length ? e['Student'] : null,
       };
     });
+    const currentViewEvents = [...this.scheduleObj
+      .getCurrentViewEvents()
+      .map((e) => {
+        return {
+          ...e,
+          Service: e['Service'] && e['Service'].length ? e['Service'] : null,
+          Student: e['Student'] && e['Student'].length ? e['Student'] : null,
+        };
+      })];
+   
+    console.log('MappedEvents: ', mappedData);
     this.schedule.calenderEvents = mappedData as ResponseCalendarEvents[];
-    this.onEventDataUpdate.emit(this.schedule.calenderEvents)
+    console.log('emiting events', this.schedule.calenderEvents);
+    this.onEventDataUpdate.emit({
+      recurringEvents: this.schedule.calenderEvents as ResponseCalendarEvents[],
+      currentViewEvents: currentViewEvents as ResponseCalendarEvents[],
+    });
     if (this.schedule._id) {
       this.scheduleService
         .updateSchedule(this.schedule?._id, this.schedule as any)

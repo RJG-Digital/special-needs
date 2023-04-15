@@ -24,11 +24,13 @@
   </div>
   <div fxFlex>
     <app-schedular
+      #scheduler
       (onEventDataUpdate)="onEventDataUpdate($event)"
       (onStartDateChange)="onStartDateChange($event)"
       (onEndDateChange)="onEndDateChange($event)"
       [schedule]="selectedSchedule"
-      class="full-sub-page"
+      class="full-page"
+      [style]="{ margin: '24px 24px 0 24px' }"
     ></app-schedular>
   </div>
 </div>

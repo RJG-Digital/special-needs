@@ -10,11 +10,6 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent {
-  public navLinks = [
-    { label: 'Overview', path: '/users/overview' },
-    { label: 'About', path: '/about' },
-    { label: 'Contact', path: '/contact' },
-  ];
   public users: User[];
   public company: any;
   
@@ -31,14 +26,12 @@ export class UsersComponent {
       .subscribe((company) => {
         if (company) {
           this.company = company;
-          console.log(this.company)
           this.usersService
             .getUsers(this.company._id)
             .pipe(takeUntil(this.unsubscribe))
             .subscribe((users) => {
               this.users = users
               this.usersService.Users$.next(this.users);
-              
             });
         }
       });

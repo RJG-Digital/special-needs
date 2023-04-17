@@ -43,6 +43,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'schedules',
+    loadChildren: () =>
+      import('./pages/schedules/schedules.module').then((m) => m.SchedulesModule),
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'services',
     loadChildren: () =>
       import('./pages/services/services.module').then((m) => m.ServicesModule),

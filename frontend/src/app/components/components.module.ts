@@ -20,6 +20,7 @@ import { DrawerComponent } from './drawer/drawer.component';
 import { ServiceTableComponent } from './services/service-table/service-table.component';
 import { ServiceFormComponent } from './services/service-form/service-form.component';
 import { StudentServiceWidgitComponent } from './students/student-service-widgit/student-service-widgit.component';
+import { ScheduleTableComponent } from './schedules/schedule-table/schedule-table.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { StudentServiceWidgitComponent } from './students/student-service-widgit
     ServiceTableComponent,
     ServiceFormComponent,
     StudentServiceWidgitComponent,
+    ScheduleTableComponent,
   ],
   imports: [
     CommonModule,
@@ -63,6 +65,7 @@ import { StudentServiceWidgitComponent } from './students/student-service-widgit
     ServiceTableComponent,
     ServiceFormComponent,
     StudentServiceWidgitComponent,
+    ScheduleTableComponent
   ]
 })
 export class ComponentsModule { }

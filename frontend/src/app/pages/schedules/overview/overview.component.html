@@ -1,0 +1,11 @@
+<div class="full-page-m" style="overflow: hidden;" fxLayout="row" fxLayoutAlign="center start">
+    <mat-drawer-container style="background: transparent !important; overflow: hidden" class="full-width example-container" style="height: 100%" >
+     <mat-drawer #drawer class="content-sidenav" mode="over" position="end" >
+         <!-- <app-student-form #studentForm [companyId]="companyId" (onClose)="onFlyoutClose($event)" [student]="selectedStudent"></app-student-form> -->
+     </mat-drawer>
+     <div style="width: calc(100% - 48px); margin:24px auto;">
+         <app-schedule-table></app-schedule-table>
+     </div>
+   </mat-drawer-container>
+  </div>
+<!-- <p>overview works!</p> -->
